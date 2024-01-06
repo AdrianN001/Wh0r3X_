@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "server_conn.h": "c",
+        "unistd.h": "c"
+    }
+}
