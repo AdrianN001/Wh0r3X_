@@ -53,5 +53,10 @@ login_result_t start_login_page(){
     wrefresh(popup_window);
 
     while(1);
+    /* Cleaning up */
+    delwin(popup_window);
+    delwin(main_window);
+    endwin();
+    refresh();
     return (login_result_t){0};
 }
