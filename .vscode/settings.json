@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "server_conn.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "user.h": "c",
+        "stdlib.h": "c",
+        "login_page.h": "c"
     }
 }

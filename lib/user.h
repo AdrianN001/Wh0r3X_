@@ -1,10 +1,10 @@
 #pragma once
-#include "../server_conn.c"
+#include "../src/server_conn.c"
 
 struct user{ 
-    char* nickname;
-    char* username;
-    char* realname;
+    char nickname[20];
+    char username[20];
+    char realname[25];
 
     struct server_conn conn;
 };

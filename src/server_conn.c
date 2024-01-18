@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h> 
-#include "lib/server_conn.h"
+#include "../lib/server_conn.h"
 
 struct in_addr resolve_ip_address_from_hostname(const char* hostname){
     struct addrinfo hint;
@@ -27,11 +27,12 @@ struct in_addr resolve_ip_address_from_hostname(const char* hostname){
 
     for (struct addrinfo* tmp = result; (tmp != NULL && addr == NULL) ; tmp = tmp->ai_next ){
         
-        char address_string[INET6_ADDRSTRLEN]; //longest 
         if( tmp->ai_family == AF_INET){
             addr = (struct sockaddr_in*)tmp->ai_addr;
         }
     }
+    /*  Potential null pointer derefernce  */
+    /*  Needs to be solved */
     struct in_addr address = addr->sin_addr;
 
 
@@ -76,6 +77,8 @@ int connect_server_to_endpoint(struct server_conn* new_connection, const char* h
 
 
 
+
 void leave_server(struct server_conn* connection){
-    close(connection->sockfd);
+   
+    close(connection->sockfd);             /* kill the connection */
 }
