@@ -4,6 +4,7 @@
         "unistd.h": "c",
         "user.h": "c",
         "stdlib.h": "c",
-        "login_page.h": "c"
+        "login_page.h": "c",
+        "form_buffer.h": "c"
     }
 }

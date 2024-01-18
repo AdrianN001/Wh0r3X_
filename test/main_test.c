@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "../src/user.c"
+#include "../src/tui/form_buffer.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
@@ -18,10 +19,37 @@ void test_registration_process(){
 
 }
 
+void test_form_buffer(){
+    form_buffer_t nickname_buffer = create_buffer();
+    append_to_buffer(&nickname_buffer, 'a');
+    append_to_buffer(&nickname_buffer, 'b');
+    append_to_buffer(&nickname_buffer, 'c');
+    print(&nickname_buffer);
+
+    pop_from_buffer(&nickname_buffer);
+    pop_from_buffer(&nickname_buffer);
+
+    append_to_buffer(&nickname_buffer, 's');
+    append_to_buffer(&nickname_buffer, '2');
+    append_to_buffer(&nickname_buffer, '4');
+    append_to_buffer(&nickname_buffer, 'h');
+
+    print(&nickname_buffer);
+
+    char output[32] = {0};
+    extract(&nickname_buffer, output);
+    printf("%s -> %d\n", output, strlen(output));
+
+
+
+    free_buffer(&nickname_buffer);
+
+
+}
 
 int main(void){
-    printf("hello world!");
-    test_registration_process();
+    printf("running test!\n");
+    test_form_buffer();
 
     return 0;
 }

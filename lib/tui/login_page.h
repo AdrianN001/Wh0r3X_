@@ -8,6 +8,11 @@
 #define POPUP_WINDOW_ROW 48
 #define POPUP_WINDOW_COLS 220
 
+/* Login form state */
+#define USERNAME_FORM 0
+#define NICKNAME_FORM 1
+#define REALNAME_FORM 2
+
 typedef struct login_result{
     char username[24];
     char nicknake[24];
