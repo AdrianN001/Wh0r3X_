@@ -3,8 +3,10 @@
 #include <string.h>
 
 form_buffer_t create_buffer(){
+    char* new_buffer = (char*)malloc(sizeof(char) * BUFFER_SIZE);
+    memset(new_buffer, 0, BUFFER_SIZE*sizeof(char));
     return (form_buffer_t){
-        .buffer = malloc(sizeof(char) * BUFFER_SIZE),
+        .buffer = new_buffer,
         .size = 0
     };
 }
@@ -14,9 +16,10 @@ void append_to_buffer(form_buffer_t* buffer_obj, char new_char){
     }
 }
 char pop_from_buffer(form_buffer_t* buffer_obj){
+    if (buffer_obj->size < 1){return '0';}
     char* last_element_pointer = &(buffer_obj->buffer[buffer_obj->size-1]);
     char last_element = *last_element_pointer;
-    last_element_pointer = '\0';
+    *last_element_pointer = '\0';
     buffer_obj->size--;
     return last_element;
 }

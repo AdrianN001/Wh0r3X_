@@ -1,4 +1,5 @@
 #pragma once
+#include "form_buffer.h"
 #include <ncurses.h>
 
 /* Size of the popup window  */
@@ -13,6 +14,11 @@
 #define NICKNAME_FORM 1
 #define REALNAME_FORM 2
 
+/* Form position vertically */
+#define USERNAME_FORM_POSITION 4
+#define NICKNAME_FORM_POSITION 6
+#define REALNAME_FORM_POSITION 8
+
 typedef struct login_result{
     char username[24];
     char nicknake[24];
@@ -20,4 +26,5 @@ typedef struct login_result{
 } login_result_t;
 
 void print_background(WINDOW* window);
+void set_cursor(WINDOW* window, short buffer_id, form_buffer_t* buffers);
 login_result_t start_login_page();
