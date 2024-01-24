@@ -4,6 +4,18 @@
 #include <string.h>
 
 
+void free_login_result(login_result_t* res){
+    free(res->nickname);
+    free(res->realname);
+    free(res->username);
+}
+
+void print_login_result(login_result_t* res){
+    printf("username => %s\n nickname => %s\n realname => %s\n", res->nickname, res->username, res->realname);
+}
+
+
+
 void print_background(WINDOW* window){
     FILE* file = fopen("assets/backgrounds/whorex3_grey_inv.txt", "r");
     if (file == NULL){
@@ -124,5 +136,20 @@ CLEANING_UP:
     delwin(main_window);
     endwin();
     refresh();
-    return (login_result_t){0};
+
+    char* username_buffer_ext = (char*)malloc(sizeof(char) * 24);
+    char* nickname_buffer_ext = (char*)malloc(sizeof(char) * 24);
+    char* realname_buffer_ext = (char*)malloc(sizeof(char) * 24);
+
+    strcpy(username_buffer_ext, input_buffers[0].buffer);
+    strcpy(nickname_buffer_ext, input_buffers[1].buffer);
+    strcpy(realname_buffer_ext, input_buffers[2].buffer);
+
+
+
+    return (login_result_t){
+        .username = username_buffer_ext,
+        .nickname = nickname_buffer_ext,
+        .realname = realname_buffer_ext
+    };
 }

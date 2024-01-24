@@ -24,14 +24,13 @@ char pop_from_buffer(form_buffer_t* buffer_obj){
     return last_element;
 }
 void copyn(form_buffer_t* dest_buffer, char* src, short n){
-    strcpy(dest_buffer->buffer, "");
-    for (int i = 0; i < n;i++){
-        dest_buffer->buffer[i] = src[i];
-    }
+    strncpy(dest_buffer->buffer, src, n);
+    for(size_t i = n+1; i<BUFFER_SIZE;i++){dest_buffer->buffer[i] = '\0';} // clear the remaining part
+    
 }
 void extract(form_buffer_t* src_buffer, char* dest){
     src_buffer->buffer[src_buffer->size] = '\0';
-    strcpy(dest, src_buffer->buffer);
+    strncpy(dest, src_buffer->buffer, strlen(src_buffer->buffer));
 }
 void free_buffer(form_buffer_t* free_buffer){
     free(free_buffer->buffer);

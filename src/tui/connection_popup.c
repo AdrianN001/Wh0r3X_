@@ -1,4 +1,5 @@
 #include "../../lib/tui/connection_popup.h"
+#include <string.h>
 
 connection_history_t get_connection_history(){
     char** temp_array = malloc(sizeof(char*) * 3);
@@ -21,14 +22,14 @@ void print_border(WINDOW* popup_window){
     int x_center = (CONNECTION_POPUP_WINDOW_ROW + CONNECTION_POPUP_WINDOW_HEIGHT) / 1.8;
 
     for (int vertical = 2; vertical < 19; vertical++){
-        mvwaddch(popup_window, vertical, x_center, '|' );
-        mvwaddch(popup_window, vertical, x_center+1, '|' );
+        mvwaddch(popup_window, vertical, x_center, '|'| A_BOLD );
+        mvwaddch(popup_window, vertical, x_center+1, '|' | A_BOLD  );
     }
 }
 
 void list_history(WINDOW* window, connection_history_t* history ){
 
-    if ( history->size == 0){
+    if (history->size == 0){
         mvwaddstr(window, 8 , 46, "Hmmm. It seems, that...");
         mvwaddstr(window, 10, 40, "you haven't been on an irc server");
         mvwaddstr(window, 12, 53, "before");
@@ -44,11 +45,11 @@ void list_history(WINDOW* window, connection_history_t* history ){
 }
 
 
-void start_connection_popup_box(WINDOW *base_window){
+char* start_connection_popup_box(WINDOW *base_window){
 
 
-    int x_center = (CONNECTION_POPUP_WINDOW_COLS - CONNECTION_POPUP_WINDOW_WIDTH) / 2;
-    int y_center = (CONNECTION_POPUP_WINDOW_ROW - CONNECTION_POPUP_WINDOW_HEIGHT) / 2;
+    const int x_center = (CONNECTION_POPUP_WINDOW_COLS - CONNECTION_POPUP_WINDOW_WIDTH) / 2;
+    const int y_center = (CONNECTION_POPUP_WINDOW_ROW - CONNECTION_POPUP_WINDOW_HEIGHT) / 2;
 
     WINDOW* popup_window = subwin(base_window, CONNECTION_POPUP_WINDOW_HEIGHT, CONNECTION_POPUP_WINDOW_WIDTH, y_center, x_center);    
     
@@ -105,7 +106,7 @@ void start_connection_popup_box(WINDOW *base_window){
                 break;
             case 0x02: /* Arrow down */
                 history_pointer = history_pointer == -1 ? 0 : history_pointer-1;
-                history_pointer = history_pointer == -1 ? 0 : history_pointer;
+                history_pointer = history_pointer == -1 ? (history.size -1) : history_pointer;
 
 
                 /* Update the buffer */
@@ -134,7 +135,8 @@ CLEANING_UP:
     endwin();
     refresh();
 
-    free_buffer(&input_buffer);
-
     free_connection_history(&history);
+
+    return input_buffer.buffer;
+
 }

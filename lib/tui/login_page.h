@@ -21,11 +21,13 @@
 #define REALNAME_FORM_POSITION 8
 
 typedef struct login_result{
-    char username[24];
-    char nicknake[24];
-    char realname[24];
+    char* username;
+    char* nickname;
+    char* realname;
 } login_result_t;
 
 void print_background(WINDOW* window);
 void set_cursor(WINDOW* window, short buffer_id, form_buffer_t* buffers);
 login_result_t start_login_page();
+void print_login_result(login_result_t* res);
+void free_login_result(login_result_t* res);

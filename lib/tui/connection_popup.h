@@ -14,7 +14,8 @@
 
 
 void print_border(WINDOW* popup_window);
-void start_connection_popup_box(WINDOW* base_window);
+// returns the server name
+char* start_connection_popup_box(WINDOW* base_window);
 
 typedef struct {
     char** data;

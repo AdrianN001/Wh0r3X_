@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "../src/user.c"
 #include "../src/tui/form_buffer.c"
+#include "../src/tui/chat_page.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
@@ -43,13 +44,22 @@ void test_form_buffer(){
 
 
     free_buffer(&nickname_buffer);
+}
 
+void test_time_fetching(){
+    char buffer[25] = {0};
+    fetch_current_time(buffer);
+    printf("TIME: %s\n", buffer);
+    fetch_current_date(buffer);
+    printf("DATE: %s\n", buffer);
 
 }
 
 int main(void){
     printf("running test!\n");
-    test_form_buffer();
+    //test_form_buffer();
+
+    test_time_fetching();
 
     return 0;
 }
