@@ -24,8 +24,9 @@ char pop_from_buffer(form_buffer_t* buffer_obj){
     return last_element;
 }
 void copyn(form_buffer_t* dest_buffer, char* src, short n){
+    strcpy(dest_buffer->buffer, "");
     for (int i = 0; i < n;i++){
-        src[i] = dest_buffer->buffer[i];
+        dest_buffer->buffer[i] = src[i];
     }
 }
 void extract(form_buffer_t* src_buffer, char* dest){

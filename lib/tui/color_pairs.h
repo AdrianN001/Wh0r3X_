@@ -1,5 +1,5 @@
 #pragma once
-#include <ncurses.h>
+#include <curses.h>
 
 #define MAIN_COLOR_PAIR             1
 #define MAIN_COLOR_PAIR_REVERSED    2
@@ -8,7 +8,9 @@
 #define ERROR_COLOR_PAIR            5
 #define ERROR_COLOR_PAIR_REVERSED   6
 
-void define_colors(){
+#define PROMPT_INPUT_TEXT           7
+
+void initialize_color_pairs(){
     /*  Base colors */
     init_pair(MAIN_COLOR_PAIR, COLOR_BLACK, COLOR_WHITE);
     init_pair(MAIN_COLOR_PAIR_REVERSED, COLOR_WHITE, COLOR_BLACK);
@@ -20,4 +22,8 @@ void define_colors(){
     /* Error colors */
     init_pair(ERROR_COLOR_PAIR, COLOR_RED, COLOR_BLACK);
     init_pair(ERROR_COLOR_PAIR_REVERSED, COLOR_BLACK, COLOR_RED);
+
+    /* Prompt color */
+    init_pair(PROMPT_INPUT_TEXT, COLOR_BLACK, COLOR_WHITE);
+
 }

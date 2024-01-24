@@ -5,6 +5,13 @@
         "user.h": "c",
         "stdlib.h": "c",
         "login_page.h": "c",
-        "form_buffer.h": "c"
-    }
+        "form_buffer.h": "c",
+        "join_popup.h": "c",
+        "connection_page.h": "c",
+        "curses.h": "c",
+        "ncurses.h": "c",
+        "connection_popup.h": "c"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "C_Cpp.errorSquiggles": "disabled"
 }

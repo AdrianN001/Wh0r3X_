@@ -1,6 +1,7 @@
 #pragma once
 #include "form_buffer.h"
 #include <ncurses.h>
+#include <curses.h>
 
 /* Size of the popup window  */
 #define POPUP_WINDOW_WIDTH 75

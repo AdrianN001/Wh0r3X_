@@ -13,7 +13,6 @@ void print_background(WINDOW* window){
 
     while (fgets(buffer, sizeof(buffer), file)) {        
         for (int i = 0; i < strlen(buffer); i++){
-          
             waddch(window,  buffer[i] | A_BOLD );
         }
     }
@@ -58,7 +57,7 @@ login_result_t start_login_page(){
     keypad(stdscr, TRUE);
     print_background(main_window);
 
-    int x_center = (POPUP_WINDOW_COLS - POPUP_WINDOW_WIDTH)  / 2;
+    int x_center = (POPUP_WINDOW_COLS - POPUP_WINDOW_WIDTH) / 2;
     int y_center = (POPUP_WINDOW_ROW - POPUP_WINDOW_HEIGHT) / 2;
     
         
@@ -86,6 +85,7 @@ login_result_t start_login_page(){
     while(1){
         char key_pressed = getch();
         //mvwadd(popup_window, 1,1, (int)key_pressed);
+        //exit(key_pressed);
 
         switch(key_pressed){
             case 0x09: /* TAB */
@@ -102,9 +102,11 @@ login_result_t start_login_page(){
             }
                 break;        
             case 0x0A: /* Enter ( actually the NL ) */
-
-                activate_form = (activate_form + 1) % 3; 
-                break;
+                goto CLEANING_UP;
+            case 0x03: /* Arrow up */
+                exit(1);
+            case 0x02: /* Arrow down */
+                exit(1);
             default:{   
                 /* Update the buffer */
                 form_buffer_t* active_buffer = &(input_buffers[activate_form]);
