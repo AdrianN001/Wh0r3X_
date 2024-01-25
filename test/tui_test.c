@@ -22,6 +22,7 @@ char* start_connection_page_test(){
     return server;
 }
 
+
 void information_box_debug(){
     WINDOW* main_window;
 
@@ -34,7 +35,9 @@ void information_box_debug(){
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
+    
     start_information_box(main_window);
+
 
     delwin(main_window);
     endwin();

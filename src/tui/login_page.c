@@ -69,8 +69,8 @@ login_result_t start_login_page(){
     keypad(stdscr, TRUE);
     print_background(main_window);
 
-    int x_center = (POPUP_WINDOW_COLS - POPUP_WINDOW_WIDTH) / 2;
-    int y_center = (POPUP_WINDOW_ROW - POPUP_WINDOW_HEIGHT) / 2;
+    const int x_center = (POPUP_WINDOW_COLS - POPUP_WINDOW_WIDTH) / 2;
+    const int y_center = (POPUP_WINDOW_ROW - POPUP_WINDOW_HEIGHT) / 2;
     
         
     popup_window = subwin(main_window, POPUP_WINDOW_HEIGHT, POPUP_WINDOW_WIDTH, y_center, x_center);    
