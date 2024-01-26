@@ -3,6 +3,7 @@
 
 struct server_conn{
     int sockfd;
+    char* ping_pong_phrase; 
     pthread_t thread_id;
 };
 

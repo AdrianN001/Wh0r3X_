@@ -79,6 +79,7 @@ int connect_server_to_endpoint(struct server_conn* new_connection, const char* h
 
 
 void leave_server(struct server_conn* connection){
+    free(connection->ping_pong_phrase);
    
     close(connection->sockfd);             /* kill the connection */
 }

@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include "../src/user.c"
 #include "../src/tui/form_buffer.c"
-#include "../src/tui/chat_page.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
 void test_registration_commands(){
 
-    char* command_result = generate_username_command("username", "real name");
+    char* username_command_res = generate_username_command("username", "real name");
+    char* nickname_command_res = generate_nickname_command("nickname");
+
+    printf("username %s\n nickname %s \n", username_command_res, nickname_command_res);
+
+    free(username_command_res);
+    free(nickname_command_res);
     assert(20 == 33);
 }
 
@@ -15,7 +20,7 @@ void test_registration_process(){
     
 
     struct user new_user = {0};
-    init_user(&new_user, "random_nickname", "nick name", "real name");
+    init_user(&new_user, "nickname_killer", "nicholas_name", "renaldo name");
     connect_to_server(&new_user, "irc.w3.org", 6667);
 
 }
@@ -46,6 +51,7 @@ void test_form_buffer(){
     free_buffer(&nickname_buffer);
 }
 
+/*
 void test_time_fetching(){
     char buffer[25] = {0};
     fetch_current_time(buffer);
@@ -54,12 +60,13 @@ void test_time_fetching(){
     printf("DATE: %s\n", buffer);
 
 }
+*/
 
 int main(void){
     printf("running test!\n");
     //test_form_buffer();
 
-    test_time_fetching();
+    test_registration_process();
 
     return 0;
 }

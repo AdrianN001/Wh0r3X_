@@ -10,21 +10,14 @@
 
 char* generate_username_command(const char* username, const char* realname){
     char* buffer = (char*)malloc(sizeof(char) * 64);
-    buffer[0] = 'U';
-    buffer[1] = 'S';
-    buffer[2] = 'E';
-    buffer[3] = 'R';
-    buffer[4] = ' ';
-
+    strcpy(buffer, "USER ");
     const size_t username_length = strlen(username);
     strcpy(&buffer[5], username);
-    buffer[5+username_length] = ' ';
-    buffer[5+username_length + 1] = '*';
-    buffer[5+username_length + 2] = '*';
-    buffer[5+username_length + 3] = ':';
-    buffer[5+username_length + 4] = ' ';
+    strcpy(&(buffer[5 + username_length]), " 0 * :");
+   
+   size_t new_size_without_realname = strlen(buffer);
 
-    strcpy(&(buffer[5+username_length+5]), realname);
+    strcpy(&(buffer[new_size_without_realname]), realname);
     size_t new_size = strlen(buffer);
     buffer[new_size ] = '\n';
     buffer[new_size + 1] = '\0';
@@ -32,11 +25,7 @@ char* generate_username_command(const char* username, const char* realname){
 }
 char* generate_nickname_command(const char* nickname){
     char* buffer = (char*)malloc(sizeof(char) * 32);
-    buffer[0] = 'N';
-    buffer[1] = 'I';
-    buffer[2] = 'C';
-    buffer[3] = 'K';
-    buffer[4] = ' ';
+    strcpy(buffer, "NICK ");
 
     strcpy(&(buffer[5]), nickname);
     size_t new_size = strlen(buffer);
@@ -47,16 +36,19 @@ char* generate_nickname_command(const char* nickname){
 }
 
 void init_user(struct user* new_user, char* nickname, char* username, char* realname){
-    strcpy(new_user->nickname, nickname);
-    strcpy(new_user->username, username);
-    strcpy(new_user->realname, realname);
+    new_user->nickname = malloc(sizeof(char) * 32);
+    new_user->username = malloc(sizeof(char) * 32);
+    new_user->realname = malloc(sizeof(char) * 32);
+    
+    strncpy(new_user->nickname, nickname, strlen(nickname));
+    strncpy(new_user->username, username, strlen(username));
+    strncpy(new_user->realname, realname, strlen(realname));
     new_user->conn = (struct server_conn){0};
 
 }
 
 void* registration_worker(void* vargp){
 
-    printf("ASDASDD");
     struct user* session_user = (struct user*)vargp;
 
     const char* username_command = generate_username_command(session_user->username, session_user->realname);
@@ -85,7 +77,6 @@ void connect_to_server(struct user* session_user, const char* host,int port){
         exit(1);
     }
 
-    printf("asd");
 
     const char* username_command = generate_username_command(session_user->username, session_user->realname);
     const char* nickname_command = generate_nickname_command(session_user->nickname);
@@ -97,16 +88,30 @@ void connect_to_server(struct user* session_user, const char* host,int port){
     free((void*)username_command);
     free((void*)nickname_command);
 
-    char buffer[128] = {0};
+    char buffer[512] = {0};
     for (;;){
         memset(buffer, 0, sizeof(buffer));
         size_t bytes_read = read(session_user->conn.sockfd, buffer, sizeof(buffer));
         if(!bytes_read){
             break;
         }
-
         printf("recieved: %s\n", buffer);
-
     }
+}
 
+void free_user(struct user* _del_user){
+    free(_del_user->nickname);
+    free(_del_user->realname);
+    free(_del_user->username);
+}
+
+
+void leave_server_as_user(struct user* session_user){
+
+    const char* leave_command = "QUIT";
+    write(session_user->conn.sockfd, leave_command, strlen(leave_command));
+    
+    leave_server(&(session_user->conn));
+    free_user(session_user);
+    
 }

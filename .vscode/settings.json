@@ -11,9 +11,8 @@
         "curses.h": "c",
         "ncurses.h": "c",
         "connection_popup.h": "c",
-        "chat_page.h": "c",
-        "cstddef": "c",
-        "iostream": "c"
+        "chat_page.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "C_Cpp.errorSquiggles": "disabled"
 }
