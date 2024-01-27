@@ -70,7 +70,7 @@ char* start_connection_popup_box(WINDOW *base_window){
     list_history(popup_window, &history);
     short history_pointer = -1;
 
-    form_buffer_t input_buffer = create_buffer();
+    form_buffer_t input_buffer = create_buffer(32);
 
     char empty_buffer[18] = {0};
     memset(empty_buffer, ' ', sizeof(char) * 16);

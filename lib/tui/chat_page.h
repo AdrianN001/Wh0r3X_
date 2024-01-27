@@ -1,6 +1,9 @@
 #pragma once
+#include "chat_page/input_field.h"
 #include "chat_page/information_box.h"
 #include "chat_page/users_box.h"
+#include "chat_page/history.h"
+#include "color_pairs.h"
 #include <unistd.h>
 #include <curses.h>
 
@@ -10,7 +13,3 @@
 
 /* History Box */
 void start_history_box(WINDOW* base_window);
-
-
-/* Input Field Box */
-void start_input_field_box(WINDOW* base_window);

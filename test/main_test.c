@@ -26,7 +26,7 @@ void test_registration_process(){
 }
 
 void test_form_buffer(){
-    form_buffer_t nickname_buffer = create_buffer();
+    form_buffer_t nickname_buffer = create_buffer(16);
     append_to_buffer(&nickname_buffer, 'a');
     append_to_buffer(&nickname_buffer, 'b');
     append_to_buffer(&nickname_buffer, 'c');

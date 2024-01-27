@@ -28,6 +28,6 @@ typedef struct login_result{
 
 void print_background(WINDOW* window);
 void set_cursor(WINDOW* window, short buffer_id, form_buffer_t* buffers);
-login_result_t start_login_page();
+login_result_t start_login_page(WINDOW* main_window);
 void print_login_result(login_result_t* res);
 void free_login_result(login_result_t* res);

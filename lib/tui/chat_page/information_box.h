@@ -13,13 +13,5 @@
 void fetch_current_date(char* buffer);
 void fetch_current_time(char* buffer);
 
-
-
-typedef struct {
-    WINDOW* info_box_window; 
-    const char* server_name;
-} info_box_worker_args;
-
-void* information_box_worker(info_box_worker_args* args);
-
+void update_info_box(WINDOW* info_window);
 WINDOW* start_information_box(WINDOW* base_window, const char* server_name);

@@ -1,4 +1,5 @@
 #include "../../lib/tui/login_page.h"
+#include "../../lib/tui/color_pairs.h"
 #include "form_buffer.c"
 #include <stdlib.h>
 #include <string.h>
@@ -23,10 +24,18 @@ void print_background(WINDOW* window){
     }
     char buffer[256] = {0};
 
-    while (fgets(buffer, sizeof(buffer), file)) {        
+    while (fgets(buffer, sizeof(buffer), file)) { 
+
         for (int i = 0; i < strlen(buffer); i++){
-            waddch(window,  buffer[i] | A_BOLD );
+              
+            int random_color = (int)(rand() % 5) + 10;
+            wattron(window, COLOR_PAIR(random_color));
+            waddch(window,  buffer[i] | A_BOLD);
+            wrefresh(window);
+            wattroff(window, COLOR_PAIR(random_color));
+
         }
+
     }
     refresh();
     fclose(file);
@@ -55,13 +64,10 @@ void set_cursor(WINDOW* window, short buffer_id, form_buffer_t* buffers){
 }
 
 
-login_result_t start_login_page(){
-    WINDOW* main_window, *popup_window; 
+login_result_t start_login_page(WINDOW* main_window){
+    WINDOW *popup_window; 
 
-    if ( (main_window = initscr()) == NULL ) {
-	    fprintf(stderr, "Error initialising ncurses.\n");
-	    exit(1);
-    }
+    
     curs_set(0); /* Hide the cursor */
 
     cbreak();
@@ -89,9 +95,9 @@ login_result_t start_login_page(){
     int activate_form = USERNAME_FORM;
 
     form_buffer_t input_buffers[3] = { 
-                                    create_buffer(), /* username */
-                                    create_buffer(), /* nickname */
-                                    create_buffer()  /* realname */
+                                    create_buffer(24), /* username */
+                                    create_buffer(24), /* nickname */
+                                    create_buffer(24)  /* realname */
                                     }; 
 
     while(1){
@@ -133,7 +139,6 @@ login_result_t start_login_page(){
 CLEANING_UP:
     /* Cleaning up */
     delwin(popup_window);
-    delwin(main_window);
     endwin();
     refresh();
 

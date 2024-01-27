@@ -1,7 +1,9 @@
 #include "../src/tui/login_page.c"
 #include "../src/tui/connection_popup.c"
 #include "../src/tui/chat_page.c"
+
 #include <pthread.h>
+#include <unistd.h>
 
 char* start_connection_page_test(){
     WINDOW* main_window;
@@ -24,7 +26,7 @@ char* start_connection_page_test(){
 }
 
 
-void information_box_debug(WINDOW* main_window){
+WINDOW* information_box_debug(WINDOW* main_window){
 
    
     curs_set(0); /* Hide the cursor */
@@ -33,17 +35,15 @@ void information_box_debug(WINDOW* main_window){
     noecho();
     keypad(stdscr, TRUE);
     
-    start_information_box(main_window, "irc.w3.org");
-
-
-    delwin(main_window);
-    endwin();
-    refresh();
+    return start_information_box(main_window, "irc.w3.org");
+}
+WINDOW* input_field_box_debug(WINDOW* main_window){
+    return start_input_field_box(main_window);
 }
 
-void users_box_debug(WINDOW* main_window){
+WINDOW* users_box_debug(WINDOW* main_window){
 
-    char* buffer[24] = {"valami23", "nigger23"};
+    char* buffer[24] = {"valami23", "smtg23"};
     int size_of_buffer = 2;
     pthread_mutex_t lock; 
     pthread_mutex_init(&lock, NULL);
@@ -55,13 +55,9 @@ void users_box_debug(WINDOW* main_window){
     noecho();
     keypad(stdscr, TRUE);
     
-    start_users_box(main_window, buffer, &size_of_buffer, &lock);
+    return start_users_box(main_window, buffer, &size_of_buffer, &lock);
 
-    pthread_mutex_destroy(&lock);
-
-    delwin(main_window);
-    endwin();
-    refresh();
+    
 }
 
 int main(){
@@ -69,18 +65,69 @@ int main(){
     //users_box_debug();
     WINDOW* main_window;
 
+
+srand(time(NULL));  
+
+    char* buffer[24] = {"valami23", "reci23"};
+    int size_of_buffer = 2;
+
+    char* history_buffer[50] = {"message1", "message2"};
+    int size_of_history_buffer = 2;
+    
+    pthread_mutex_t users_gui_lock; 
+    pthread_mutex_init(&users_gui_lock, NULL);
+
+    pthread_mutex_t history_buffer_lock;
+    pthread_mutex_init(&history_buffer_lock, NULL);
+
+
     if ( (main_window = initscr()) == NULL ) {
 	    fprintf(stderr, "Error initialising ncurses.\n");
 	    exit(1);
     }
-    information_box_debug(main_window);
-    users_box_debug(main_window);
 
-    for(;;){}
+    start_color();
+    initialize_color_pairs();
 
     /*
-    char* server = start_connection_page_test();
-    printf("%s\n", server);
-    free(server);
-    */
+
+    login_result_t res = start_login_page(main_window);
+    clear();
+    start_connection_popup_box(main_window);
+    clear();
+*/
+
+
+    WINDOW* info_box = information_box_debug(main_window);
+    WINDOW* users_box = users_box_debug(main_window);
+    WINDOW* input_box = input_field_box_debug(main_window);
+    WINDOW* history_box = start_history_box_window(main_window);
+
+    nodelay(input_box, true); // Causes getch to be non-blocking
+
+    form_buffer_t input_buffer = create_buffer(128);
+
+//  event loop
+    for(;;){
+
+        int key_pressed = wgetch(input_box);
+        if (key_pressed != ERR){
+            update_input_box(input_box, (char)key_pressed, &input_buffer);
+        }
+
+        update_info_box(info_box);
+        update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
+        update_history_box(history_box, history_buffer, size_of_history_buffer, &history_buffer_lock);
+        
+        
+
+        /*  Update them */
+        wrefresh(users_box);
+        wrefresh(info_box);
+        wrefresh(input_box);
+        wrefresh(history_box);
+        usleep(5 * 10e2);
+    }
+
+    
 }
