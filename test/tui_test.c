@@ -7,6 +7,13 @@
 
 #include "../src/user.c"
 
+
+
+
+#ifndef CTRL
+#define CTRL(c) ((c) & 037)
+#endif
+
 char* start_connection_page_test(){
     WINDOW* main_window;
 
@@ -135,6 +142,9 @@ int main(){
                 append_to_history_buffer(&history_buffer, &input_buffer.buffer);
                 clear_buffer(&input_buffer);
 
+            }
+            case CTRL('p'):{
+                exit(1);
             }
             default:{
                 update_input_box(input_box, (char)key_pressed, &input_buffer);
