@@ -11,7 +11,14 @@
         "curses.h": "c",
         "ncurses.h": "c",
         "connection_popup.h": "c",
-        "chat_page.h": "c"
+        "chat_page.h": "c",
+        "history_buffer.h": "c",
+        "types.h": "c",
+        "pthread.h": "c",
+        "stdio.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

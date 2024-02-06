@@ -13,7 +13,7 @@
 #define CONNECTION_POPUP_WINDOW_COLS 220
 
 
-void print_border(WINDOW* popup_window);
+void draw_border(WINDOW* popup_window);
 // returns the server name
 char* start_connection_popup_box(WINDOW* base_window);
 

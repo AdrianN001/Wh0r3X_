@@ -9,6 +9,7 @@
 #include "../lib/user.h"
 
 char* generate_username_command(const char* username, const char* realname){
+    /* Not the greatest, and most well-written code that I've ever wrote, I have to admit*/
     char* buffer = (char*)malloc(sizeof(char) * 64);
     strcpy(buffer, "USER ");
     const size_t username_length = strlen(username);
@@ -47,26 +48,9 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
 
 }
 
-void* registration_worker(void* vargp){
-
-    struct user* session_user = (struct user*)vargp;
-
-    const char* username_command = generate_username_command(session_user->username, session_user->realname);
-    const char* nickname_command = generate_nickname_command(session_user->nickname);
-
-    write(session_user->conn.sockfd, username_command, strlen(username_command));
-    write(session_user->conn.sockfd, nickname_command, strlen(nickname_command));
 
 
-    free((void*)username_command);
-    free((void*)nickname_command);
-
-    return NULL;
-
-}
-
-
-void connect_to_server(struct user* session_user, const char* host,int port){
+void connect_user_to_server(struct user* session_user, const char* host,int port){
     memset(&(session_user->conn), 0, sizeof(struct server_conn));
 
     int status = connect_server_to_endpoint(&(session_user->conn), host, port, CONNECT_BY_HOSTNAME);
@@ -81,21 +65,33 @@ void connect_to_server(struct user* session_user, const char* host,int port){
     const char* username_command = generate_username_command(session_user->username, session_user->realname);
     const char* nickname_command = generate_nickname_command(session_user->nickname);
 
-    send(session_user->conn.sockfd, username_command, strlen(username_command),0);
-    send(session_user->conn.sockfd, nickname_command, strlen(nickname_command),0);
+    write(session_user->conn.sockfd, username_command, strlen(username_command));
+    write(session_user->conn.sockfd, nickname_command, strlen(nickname_command));
 
 
     free((void*)username_command);
     free((void*)nickname_command);
 
-    char buffer[512] = {0};
+   
+}
+
+void* fill_buffer_with_incomming_text(void* args){
+
+    worker_thread_args_t* args_with_type = (worker_thread_args_t*)args;
+
+    struct user* session_user = args_with_type->session_user;
+    history_buffer_t* main_buffer = args_with_type->buffer;
+    pthread_mutex_t* lock = args_with_type->lock;
+
+    char temp_buffer[MAX_MESSAGE_LENGTH] = {0};
     for (;;){
-        memset(buffer, 0, sizeof(buffer));
-        size_t bytes_read = read(session_user->conn.sockfd, buffer, sizeof(buffer));
+        memset(temp_buffer, 0, sizeof(temp_buffer));
+        size_t bytes_read = read(session_user->conn.sockfd, temp_buffer, sizeof(temp_buffer));
         if(!bytes_read){
             break;
         }
-        printf("recieved: %s\n", buffer);
+        append_to_history_buffer(main_buffer, temp_buffer);
+       
     }
 }
 

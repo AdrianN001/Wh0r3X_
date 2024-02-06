@@ -1,6 +1,8 @@
 #pragma once
 #include <pthread.h>
 
+#define DEFAULT_PORT_FOR_IRC_SERVER 6667
+
 struct server_conn{
     int sockfd;
     char* ping_pong_phrase; 

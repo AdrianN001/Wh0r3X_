@@ -1,9 +1,11 @@
+#include <pthread.h>
+#include <unistd.h>
+
 #include "../src/tui/login_page.c"
 #include "../src/tui/connection_popup.c"
 #include "../src/tui/chat_page.c"
 
-#include <pthread.h>
-#include <unistd.h>
+#include "../src/user.c"
 
 char* start_connection_page_test(){
     WINDOW* main_window;
@@ -61,18 +63,19 @@ WINDOW* users_box_debug(WINDOW* main_window){
 }
 
 int main(){
-    //start_connection_page_test();
-    //users_box_debug();
     WINDOW* main_window;
+    struct user new_user = {0};
 
 
-srand(time(NULL));  
+    srand(time(NULL));  
 
     char* buffer[24] = {"valami23", "reci23"};
     int size_of_buffer = 2;
 
-    char* history_buffer[50] = {"message1", "message2"};
-    int size_of_history_buffer = 2;
+
+
+    history_buffer_t history_buffer = create_history_buffer(50);
+
     
     pthread_mutex_t users_gui_lock; 
     pthread_mutex_init(&users_gui_lock, NULL);
@@ -89,13 +92,25 @@ srand(time(NULL));
     start_color();
     initialize_color_pairs();
 
-    /*
 
+
+    /* Create new user */
     login_result_t res = start_login_page(main_window);
+    init_user(&new_user, res.nickname, res.username, res.realname);
     clear();
-    start_connection_popup_box(main_window);
+    /* Connect to new server */
+    char* server_name = start_connection_popup_box(main_window);
+    connect_user_to_server(&new_user, server_name, 6667);
     clear();
-*/
+
+    worker_thread_args_t history_buffer_fill_worker = {
+        .buffer = &history_buffer,
+        .lock = &history_buffer_lock,
+        .session_user = &new_user,
+    };
+
+    pthread_t worker_thread_id; 
+    pthread_create(&worker_thread_id, NULL, &fill_buffer_with_incomming_text, &history_buffer_fill_worker);
 
 
     WINDOW* info_box = information_box_debug(main_window);
@@ -111,13 +126,27 @@ srand(time(NULL));
     for(;;){
 
         int key_pressed = wgetch(input_box);
-        if (key_pressed != ERR){
-            update_input_box(input_box, (char)key_pressed, &input_buffer);
+        switch(key_pressed){
+            case ERR:
+                goto UPDATE;
+                break;
+            case 0x0A: /* Enter ( actually the NL ) */{
+                
+                append_to_history_buffer(&history_buffer, &input_buffer.buffer);
+                clear_buffer(&input_buffer);
+
+            }
+            default:{
+                update_input_box(input_box, (char)key_pressed, &input_buffer);
+            }
         }
 
+UPDATE:
         update_info_box(info_box);
         update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
-        update_history_box(history_box, history_buffer, size_of_history_buffer, &history_buffer_lock);
+        update_history_box(history_box,&history_buffer, &history_buffer_lock);
+
+
         
         
 
