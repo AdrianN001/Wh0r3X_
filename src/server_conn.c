@@ -40,7 +40,7 @@ struct in_addr resolve_ip_address_from_hostname(const char* hostname){
     return address;
 }
 
-int connect_server_to_endpoint(struct server_conn* new_connection, const char* host, int port, int connect_method){
+int create_connection(struct server_conn* new_connection, const char* host, int port, int connect_method){
     struct sockaddr_in servaddr;
     int temp_sockfd;
 
@@ -76,6 +76,9 @@ int connect_server_to_endpoint(struct server_conn* new_connection, const char* h
 }
 
 
+void send_text_to_server(struct server_conn* connection, char* buffer){
+    write(connection->sockfd, buffer, strlen(buffer));
+}
 
 
 void leave_server(struct server_conn* connection){

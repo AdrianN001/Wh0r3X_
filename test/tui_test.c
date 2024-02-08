@@ -81,7 +81,7 @@ int main(){
 
 
 
-    history_buffer_t history_buffer = create_history_buffer(50);
+    complex_buffer_t history_buffer = create_complex_buffer(50);
 
     
     pthread_mutex_t users_gui_lock; 
@@ -109,6 +109,7 @@ int main(){
     char* server_name = start_connection_popup_box(main_window);
     connect_user_to_server(&new_user, server_name, 6667);
     clear();
+
 
     worker_thread_args_t history_buffer_fill_worker = {
         .buffer = &history_buffer,
@@ -138,13 +139,13 @@ int main(){
                 goto UPDATE;
                 break;
             case 0x0A: /* Enter ( actually the NL ) */{
-                
-                append_to_history_buffer(&history_buffer, &input_buffer.buffer);
+                append_to_complex_buffer_with_line_break(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
-
+                break;
             }
             case CTRL('p'):{
-                exit(1);
+                start_connection_popup_box(main_window);
+                break;
             }
             default:{
                 update_input_box(input_box, (char)key_pressed, &input_buffer);

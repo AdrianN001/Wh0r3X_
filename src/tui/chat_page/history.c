@@ -1,8 +1,8 @@
 #include "../../../lib/tui/chat_page.h"
-#include "../../history_buffer.c"
+#include "../../complex_buffer.c"
 #include "../../../lib/tui/color_pairs.h"
 
-void update_history_box(WINDOW* window, history_buffer_t* buffer, pthread_mutex_t* gui_mutex){
+void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
 
     bool is_header_active = false;
     for (int i = buffer->size -1 ; i>=0; i--){

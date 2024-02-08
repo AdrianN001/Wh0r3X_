@@ -1,6 +1,6 @@
 #pragma once
 #include "../src/server_conn.c"
-#include "history_buffer.h"
+#include "complex_buffer.h"
 
 struct user{ 
     char* nickname;
@@ -8,6 +8,9 @@ struct user{
     char* realname;
 
     struct server_conn conn;
+    
+    char* current_channel;
+    complex_buffer_t active_channels;
 };
 
 void init_user(struct user* new_user,char* nickname, char* username, char* realname);
@@ -18,7 +21,7 @@ void connect_user_to_server(struct user* session_user, const char* host,int port
 
 typedef struct {
     struct user* session_user; 
-    history_buffer_t* buffer;
+    complex_buffer_t* buffer;
     pthread_mutex_t* lock;
 } worker_thread_args_t;
 

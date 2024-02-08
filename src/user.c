@@ -6,6 +6,8 @@
 #include <arpa/inet.h> 
 #include <unistd.h>
 
+#include "complex_buffer.c"
+
 #include "../lib/user.h"
 
 char* generate_username_command(const char* username, const char* realname){
@@ -36,14 +38,22 @@ char* generate_nickname_command(const char* nickname){
 
 }
 
+void change_nickname(struct user* session_user, char* new_nickname){
+    memset(session_user->nickname, 0, strlen(session_user->nickname));
+    strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
+}
+
 void init_user(struct user* new_user, char* nickname, char* username, char* realname){
     new_user->nickname = malloc(sizeof(char) * 32);
     new_user->username = malloc(sizeof(char) * 32);
     new_user->realname = malloc(sizeof(char) * 32);
+    new_user->current_channel = malloc(sizeof(char) * 32);
+    new_user->active_channels = create_complex_buffer(16);
     
     strncpy(new_user->nickname, nickname, strlen(nickname));
     strncpy(new_user->username, username, strlen(username));
     strncpy(new_user->realname, realname, strlen(realname));
+    strcpy(new_user->current_channel, "");
     new_user->conn = (struct server_conn){0};
 
 }
@@ -53,9 +63,8 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
 void connect_user_to_server(struct user* session_user, const char* host,int port){
     memset(&(session_user->conn), 0, sizeof(struct server_conn));
 
-    int status = connect_server_to_endpoint(&(session_user->conn), host, port, CONNECT_BY_HOSTNAME);
+    int status = create_connection(&(session_user->conn), host, port, CONNECT_BY_HOSTNAME);
   
-
     if (status != 0){
         printf("fatal error while joining the server\n");
         exit(1);
@@ -75,12 +84,13 @@ void connect_user_to_server(struct user* session_user, const char* host,int port
    
 }
 
+
 void* fill_buffer_with_incomming_text(void* args){
 
     worker_thread_args_t* args_with_type = (worker_thread_args_t*)args;
 
     struct user* session_user = args_with_type->session_user;
-    history_buffer_t* main_buffer = args_with_type->buffer;
+    complex_buffer_t* main_buffer = args_with_type->buffer;
     pthread_mutex_t* lock = args_with_type->lock;
 
     char temp_buffer[MAX_MESSAGE_LENGTH] = {0};
@@ -90,7 +100,7 @@ void* fill_buffer_with_incomming_text(void* args){
         if(!bytes_read){
             break;
         }
-        append_to_history_buffer(main_buffer, temp_buffer);
+        append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
        
     }
 }

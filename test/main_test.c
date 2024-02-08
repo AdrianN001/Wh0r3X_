@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../src/user.c"
 #include "../src/tui/form_buffer.c"
-#include "../src/history_buffer.c"
+#include "../src/complex_buffer.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
@@ -27,19 +27,23 @@ void test_registration_process(){
 }
 
 void test_history_buffer(){
-    history_buffer_t buffer = create_history_buffer(64);
-    append_to_history_buffer(&buffer, "buffer_1");
-    append_to_history_buffer(&buffer, "buffer_2");
-    append_to_history_buffer(&buffer, "buffer_3");
-    append_to_history_buffer(&buffer, "buffer_4");
-    print_history_buffer(&buffer);
+    complex_buffer_t buffer = create_complex_buffer(64);
+    append_to_complex_buffer(&buffer, "buffer_1");
+    append_to_complex_buffer(&buffer, "buffer_2");
+    append_to_complex_buffer(&buffer, "buffer_3");
+    append_to_complex_buffer(&buffer, "buffer_4");
+    print_complex_buffer(&buffer);
 
-    pop_from_history_buffer(&buffer);
-    pop_from_history_buffer(&buffer);
-    append_to_history_buffer(&buffer, "new_buffer (:");
-    print_history_buffer(&buffer);
+    pop_from_complex_buffer(&buffer);
+    pop_from_complex_buffer(&buffer);
+    append_to_complex_buffer(&buffer, "new_buffer (:");
+    append_to_complex_buffer(&buffer, "newer_buffer (:");
 
-    
+    print_complex_buffer(&buffer);
+
+    int index = remove_from_complex_buffer(&buffer, "buffer_2");
+    print_complex_buffer(&buffer);
+
 
 
 }

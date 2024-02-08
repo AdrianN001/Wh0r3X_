@@ -12,7 +12,8 @@ struct server_conn{
 #define CONNECT_BY_IPADDRESS 0
 #define CONNECT_BY_HOSTNAME  1
 
-int connect_server_to_endpoint(struct server_conn* new_connection, const char* host, int port, int connection_methond);
+int create_connection(struct server_conn* new_connection, const char* host, int port, int connection_methond);
+void send_text_to_server(struct server_conn* connection, char* buffer);
 
 
 void leave_server(struct server_conn* connection);

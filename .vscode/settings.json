@@ -18,7 +18,8 @@
         "stdio.h": "c",
         "array": "c",
         "string_view": "c",
-        "initializer_list": "c"
+        "initializer_list": "c",
+        "string.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"
