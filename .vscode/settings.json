@@ -22,7 +22,8 @@
         "string.h": "c",
         "inet.h": "c",
         "message_handler.h": "c",
-        "complex_buffer.h": "c"
+        "complex_buffer.h": "c",
+        "stdbool.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

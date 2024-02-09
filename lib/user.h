@@ -1,6 +1,7 @@
 #pragma once
 #include "../src/server_conn.c"
 #include "complex_buffer.h"
+#include "tab.h"
 
 struct user{ 
     char* nickname;
@@ -9,8 +10,10 @@ struct user{
 
     struct server_conn conn;
     
-    char* current_channel;
-    complex_buffer_t active_channels;
+    tab_t* current_channel;
+    int active_channels;
+
+    tab_t* list_of_active_channels_head; // linked list
 };
 
 void init_user(struct user* new_user,char* nickname, char* username, char* realname);

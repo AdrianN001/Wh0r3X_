@@ -77,7 +77,7 @@ int create_connection(struct server_conn* new_connection, const char* host, int 
 
 
 void send_text_to_server(struct server_conn* connection, char* buffer){
-    assert(write(connection->sockfd, buffer, strlen(buffer)))
+    assert(write(connection->sockfd, buffer, strlen(buffer)));
 }
 
 

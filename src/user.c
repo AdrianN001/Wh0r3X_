@@ -50,13 +50,10 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
     new_user->nickname = malloc(sizeof(char) * 32);
     new_user->username = malloc(sizeof(char) * 32);
     new_user->realname = malloc(sizeof(char) * 32);
-    new_user->current_channel = malloc(sizeof(char) * 32);
-    new_user->active_channels = create_complex_buffer(16);
     
     strncpy(new_user->nickname, nickname, strlen(nickname));
     strncpy(new_user->username, username, strlen(username));
     strncpy(new_user->realname, realname, strlen(realname));
-    strcpy(new_user->current_channel, "");
     new_user->conn = (struct server_conn){0};
 
 }
@@ -106,6 +103,7 @@ void* fill_buffer_with_incomming_text(void* args){
         append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
        
     }
+    exit(1);
     return NULL;
 }
 

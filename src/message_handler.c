@@ -61,7 +61,8 @@ void initialize_verb_pairs(){
     };
 }
 
-void send_message(struct user* current_user, const char* buffer){
+void send_message(struct user* current_user, char* buffer){
+
     
     if (buffer[0] == '/') {
         // That's a command
@@ -69,6 +70,8 @@ void send_message(struct user* current_user, const char* buffer){
         char verb[16] = {0};
         char args[256] = {0};
         sscanf(buffer, "/%s %s", verb, args);
+
+        if (!strlen(verb)) return;
 
 
         for (int i = 0; i < 32; i++){
@@ -79,7 +82,8 @@ void send_message(struct user* current_user, const char* buffer){
             }
         }
     }else{
-        // It is a message 
+
+        // It is a message
 
     }
    

@@ -1,6 +1,6 @@
 #include "../lib/message_actions.h"
 #include "user.c"
-
+#include "tab.c"
 
 #ifndef assert
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
@@ -69,15 +69,13 @@ void join( struct user* current_user, char* args){
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "JOIN %s %s", channel, passwd);
+    sprintf(buffer, "JOIN %s %s\n", channel, passwd);
 
-    int index_of_the_channel = complex_buffer_contains(&(current_user->active_channels), channel);
-    if (index_of_the_channel >= 0 ){
-        current_user->current_channel = current_user->active_channels.buffer[index_of_the_channel]; 
-    }else{
-        append_to_complex_buffer(&(current_user->active_channels), channel);
-        current_user->current_channel = current_user->active_channels.buffer[current_user->active_channels.size - 1]; 
+    bool already_connected = linked_list_contains(current_user->list_of_active_channels_head, channel);
+    if(!already_connected){
+        add_new_tab(current_user, channel);
     }
+
     send_text_to_server(&current_user->conn, buffer);
 }
 
@@ -123,7 +121,7 @@ void msg( struct user* current_user, char* args){
 
     char buffer[256] = {0}; 
     memset(buffer, 0, 256 * sizeof(char));
-    sprintf(buffer, "MSG %s %s", (strcmp(target, "") != 0) ? target : current_user->current_channel, message);
+    sprintf(buffer, "MSG %s %s\n", (strcmp(target, "") != 0) ? target : current_user->current_channel->name, message);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -137,7 +135,7 @@ void msg( struct user* current_user, char* args){
 void nickname( struct user* current_user, char* args){
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "NICK %s", args);
+    sprintf(buffer, "NICK %s\n", args);
 
 
     change_nickname(current_user, args);
@@ -160,7 +158,7 @@ void notice( struct user* current_user,char* args){
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "NOTICE %s %s", nickname, message);
+    sprintf(buffer, "NOTICE %s %s\n", nickname, message);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -174,10 +172,10 @@ void notice( struct user* current_user,char* args){
 void part( struct user* current_user, char* args){
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "PART %s", args);
+    sprintf(buffer, "PART %s\n", args);
 
-    remove_from_complex_buffer(&(current_user->active_channels), args);
-    current_user->current_channel = current_user->active_channels.buffer[0];
+    remove_tab(current_user, args);
+
     send_text_to_server(&current_user->conn, buffer);
 }
 
@@ -197,7 +195,7 @@ void privmsg( struct user* current_user, char* args){
 
     char buffer[256] = {0}; 
     memset(buffer, 0, 256 * sizeof(char));
-    sprintf(buffer, "PRIVMSG %s %s", target, message);
+    sprintf(buffer, "PRIVMSG %s %s\n", target, message);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -221,7 +219,7 @@ void query( struct user* current_user, char* args){
         - message
 */
 void quit( struct user* current_user, char* args){
-    char buffer[] = "QUIT";
+    char buffer[] = "QUIT\n";
     send_text_to_server(&current_user->conn, buffer);
 }
 
@@ -241,7 +239,7 @@ void topic( struct user* current_user, char* args){
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "TOPIC %s %s", channel, topic);
+    sprintf(buffer, "TOPIC %s %s\n", channel, topic);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -255,7 +253,7 @@ void topic( struct user* current_user, char* args){
 void whois( struct user* current_user, char* args ){
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "WHOIS %s", args);
+    sprintf(buffer, "WHOIS %s\n", args);
 
     send_text_to_server(&current_user->conn, buffer);
 }

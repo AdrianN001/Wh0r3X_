@@ -126,6 +126,7 @@ int main(){
     WINDOW* users_box = users_box_debug(main_window);
     WINDOW* input_box = input_field_box_debug(main_window);
     WINDOW* history_box = start_history_box_window(main_window);
+    WINDOW* active_tabs = start_tabs_box(main_window);
 
     nodelay(input_box, true); // Causes getch to be non-blocking
 
@@ -169,6 +170,7 @@ UPDATE:
         wrefresh(info_box);
         wrefresh(input_box);
         wrefresh(history_box);
+        wrefresh(active_tabs);
         usleep(5 * 10e2);
     }
 

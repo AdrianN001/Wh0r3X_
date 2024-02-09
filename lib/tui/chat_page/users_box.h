@@ -3,11 +3,11 @@
 #include <pthread.h> 
 
 /* Size of the popup window  */
-#define USERS_BOX_WINDOW_WIDTH 60
+#define USERS_BOX_WINDOW_WIDTH 30
 #define USERS_BOX_WINDOW_HEIGHT 47
 /* Placement of the popup window */
 #define USERS_BOX_WINDOW_ROW 67
-#define USERS_BOX_WINDOW_COLS 410
+#define USERS_BOX_WINDOW_COLS 380
 
 typedef struct {
     WINDOW* users_window; 
