@@ -64,17 +64,17 @@ void initialize_verb_pairs(){
 void send_message(struct user* current_user, const char* buffer){
     
     if (buffer[0] == '/') {
-
         // That's a command
+
         char verb[16] = {0};
-        char rem[256] = {0};
-        sscanf(buffer, "/%s %s", verb, rem);
+        char args[256] = {0};
+        sscanf(buffer, "/%s %s", verb, args);
 
 
         for (int i = 0; i < 32; i++){
             irc_verb_pair_t current_pair = pairs[i];
-            if(strcmp("quit", current_pair.verb_name) == 0){
-                current_pair.callback(current_user, rem);
+            if(strcmp(verb, current_pair.verb_name) == 0){
+                current_pair.callback(current_user, args);
                 break;
             }
         }
