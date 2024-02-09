@@ -133,7 +133,8 @@ login_result_t start_login_page(WINDOW* main_window){
             case 0x03: /* Arrow up */
                 exit(1);
             case 0x02: /* Arrow down */
-                exit(1);
+                activate_form = (activate_form + 1) % 3; 
+                break;
             default:{   
                 /* Update the buffer */
                 form_buffer_t* active_buffer = &(input_buffers[activate_form]);

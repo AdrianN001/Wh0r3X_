@@ -4,6 +4,24 @@
 
 void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
 
+
+    if (buffer->size  == buffer->max_size){
+        // It's full and therefore it will circleate
+        int index = buffer->starting_point + 1;
+        int y_offset = 0;
+
+        while (index != buffer->starting_point ){
+
+            mvwaddstr(window, 1 + y_offset, 2, buffer->buffer[index]);
+
+            index++;
+            y_offset++;
+            if (index == buffer->max_size){
+                index = 0;
+            }
+        }
+        return;
+    }
     bool is_header_active = false;
     for (int i = buffer->size -1 ; i>=0; i--){
         for(int character_index = 0; character_index< strlen(buffer->buffer[i]); character_index++){

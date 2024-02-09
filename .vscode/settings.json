@@ -19,7 +19,10 @@
         "array": "c",
         "string_view": "c",
         "initializer_list": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "inet.h": "c",
+        "message_handler.h": "c",
+        "complex_buffer.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

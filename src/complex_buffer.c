@@ -11,13 +11,18 @@ complex_buffer_t create_complex_buffer(const int max_size){
     return (complex_buffer_t){
         .buffer = new_buffer,
         .size = 0,
+        .starting_point = 0,
         .max_size = max_size
     };
 }
 
 void append_to_complex_buffer(complex_buffer_t* buffer_obj, char* new_buffer){
     
-    if(buffer_obj->size >= buffer_obj->max_size){ return;}
+    if(buffer_obj->size == buffer_obj->max_size){ 
+        strcpy(buffer_obj->buffer[buffer_obj->starting_point], new_buffer);
+        buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
+        return;
+    }
     
     size_t size_of_the_new_buffer = strlen(new_buffer);
 
@@ -38,28 +43,45 @@ int complex_buffer_contains(complex_buffer_t* buffer, char* searched_buffer){
 }
 
 void append_to_complex_buffer_with_line_break(complex_buffer_t* buffer_obj, char* new_buffer){
-    if(buffer_obj->size < buffer_obj->max_size){
+    if(buffer_obj->size == buffer_obj->max_size){
 
         char* token = strtok(new_buffer, "\n");
-        
+
         while(token != NULL){
             size_t size_of_the_new_buffer = strlen(token);
-            buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* size_of_the_new_buffer);
-
-            strncpy(buffer_obj->buffer[buffer_obj->size], token, size_of_the_new_buffer );
-            buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
-            buffer_obj->size++;
+            strncpy(buffer_obj->buffer[buffer_obj->starting_point], token, size_of_the_new_buffer );
+            buffer_obj->buffer[buffer_obj->starting_point][size_of_the_new_buffer] = '\0';
+            buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
             token = strtok(NULL, "\n");
         }
+        return;
     }
+
+    char* token = strtok(new_buffer, "\n");
+    
+    while(token != NULL){
+        size_t size_of_the_new_buffer = strlen(token);
+        buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* size_of_the_new_buffer);
+
+        strncpy(buffer_obj->buffer[buffer_obj->size], token, size_of_the_new_buffer );
+        buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
+        buffer_obj->size++;
+        token = strtok(NULL, "\n");
+    }
+    
 }
 void append_to_complex_buffer_with_size(complex_buffer_t* buffer_obj, char* new_buffer, size_t n){
-    if(buffer_obj->size < buffer_obj->max_size){
-        buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* n+1);
-        strncpy(buffer_obj->buffer[buffer_obj->size], new_buffer, n );
-        buffer_obj->buffer[buffer_obj->size][n] = '\0';
-        buffer_obj->size++;
+     if(buffer_obj->size >= buffer_obj->max_size){ 
+        strncpy(buffer_obj->buffer[buffer_obj->starting_point], new_buffer, n);
+        buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
+        return;
     }
+
+    buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* n+1);
+    strncpy(buffer_obj->buffer[buffer_obj->size], new_buffer, n );
+    buffer_obj->buffer[buffer_obj->size][n] = '\0';
+    buffer_obj->size++;
+    
 }
 void pop_from_complex_buffer(complex_buffer_t* buffer_obj){
     if (buffer_obj->size < 1){return;}

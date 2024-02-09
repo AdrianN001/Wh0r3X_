@@ -1,3 +1,6 @@
+#ifndef USER
+#define USER
+
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -103,6 +106,7 @@ void* fill_buffer_with_incomming_text(void* args){
         append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
        
     }
+    return NULL;
 }
 
 void free_user(struct user* _del_user){
@@ -121,3 +125,5 @@ void leave_server_as_user(struct user* session_user){
     free_user(session_user);
     
 }
+
+#endif

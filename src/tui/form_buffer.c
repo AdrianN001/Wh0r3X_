@@ -14,7 +14,7 @@ form_buffer_t create_buffer(const int max_size){
 void append_to_buffer(form_buffer_t* buffer_obj, char new_char){
     if(buffer_obj->size < buffer_obj->max_size){
         buffer_obj->buffer[buffer_obj->size++]=new_char;
-        buffer_obj->buffer[buffer_obj->size]=0;
+        buffer_obj->buffer[buffer_obj->size]='\0';
     }
 }
 char pop_from_buffer(form_buffer_t* buffer_obj){

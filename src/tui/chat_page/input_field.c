@@ -13,9 +13,6 @@ void update_input_box(WINDOW* window, char new_character, form_buffer_t* buffer)
 
         }
             break;
-        case 0x0A: /* Enter ( actually the NL ) */
-            exit(1);
-            break;
         default:{
             append_to_buffer(buffer, new_character);
             mvwaddstr(window, 2, 2, buffer->buffer); // Update the UI

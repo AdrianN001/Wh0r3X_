@@ -2,6 +2,7 @@
 #include "../src/user.c"
 #include "../src/tui/form_buffer.c"
 #include "../src/complex_buffer.c"
+#include "../src/message_handler.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
@@ -24,6 +25,10 @@ void test_registration_process(){
     init_user(&new_user, "nickname_killer", "nicholas_name", "renaldo name");
     connect_user_to_server(&new_user, "irc.w3.org", 6667);
 
+}
+
+void test_input_parsing(){
+    send_message(NULL, "/join valami");
 }
 
 void test_history_buffer(){
@@ -74,16 +79,7 @@ void test_form_buffer(){
     free_buffer(&nickname_buffer);
 }
 
-/*
-void test_time_fetching(){
-    char buffer[25] = {0};
-    fetch_current_time(buffer);
-    printf("TIME: %s\n", buffer);
-    fetch_current_date(buffer);
-    printf("DATE: %s\n", buffer);
 
-}
-*/
 
 int main(void){
     printf("running test!\n");
@@ -91,7 +87,7 @@ int main(void){
 
     //test_registration_process();
 
-    test_history_buffer();
+    test_input_parsing();
 
     return 0;
 }

@@ -6,7 +6,7 @@
 #include "../src/tui/chat_page.c"
 
 #include "../src/user.c"
-
+#include "../src/message_handler.c"
 
 
 
@@ -80,6 +80,7 @@ int main(){
     int size_of_buffer = 2;
 
 
+    initialize_verb_pairs();
 
     complex_buffer_t history_buffer = create_complex_buffer(50);
 
@@ -139,7 +140,9 @@ int main(){
                 goto UPDATE;
                 break;
             case 0x0A: /* Enter ( actually the NL ) */{
-                append_to_complex_buffer_with_line_break(&history_buffer, input_buffer.buffer);
+                if (input_buffer.size == 0) { break; }
+                send_message(&new_user, input_buffer.buffer);
+                append_to_complex_buffer(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
                 break;
             }
