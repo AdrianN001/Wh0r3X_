@@ -111,6 +111,10 @@ void free_user(struct user* _del_user){
     free(_del_user->nickname);
     free(_del_user->realname);
     free(_del_user->username);
+
+    // TABs CLEARING MUST BE IMPLEMENTED
+    assert(0);
+
 }
 
 

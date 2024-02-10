@@ -74,6 +74,7 @@ void send_message(struct user* current_user, char* buffer){
         if (!strlen(verb)) return;
 
 
+
         for (int i = 0; i < 32; i++){
             irc_verb_pair_t current_pair = pairs[i];
             if(strcmp(verb, current_pair.verb_name) == 0){
@@ -81,6 +82,7 @@ void send_message(struct user* current_user, char* buffer){
                 break;
             }
         }
+
     }else{
 
         // It is a message

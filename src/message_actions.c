@@ -71,6 +71,8 @@ void join( struct user* current_user, char* args){
     memset(buffer, 0, 64 * sizeof(char));
     sprintf(buffer, "JOIN %s %s\n", channel, passwd);
 
+
+
     bool already_connected = linked_list_contains(current_user->list_of_active_channels_head, channel);
     if(!already_connected){
         add_new_tab(current_user, channel);

@@ -43,12 +43,15 @@ int complex_buffer_contains(complex_buffer_t* buffer, char* searched_buffer){
 }
 
 void append_to_complex_buffer_with_line_break(complex_buffer_t* buffer_obj, char* new_buffer){
-    if(buffer_obj->size == buffer_obj->max_size){
+    char* token;
+    size_t size_of_the_new_buffer;
 
-        char* token = strtok(new_buffer, "\n");
+    if(buffer_obj->size == buffer_obj->max_size){
+CIRCELING:
+        token = strtok(new_buffer, "\n");
 
         while(token != NULL){
-            size_t size_of_the_new_buffer = strlen(token);
+            size_of_the_new_buffer = strlen(token);
             strncpy(buffer_obj->buffer[buffer_obj->starting_point], token, size_of_the_new_buffer );
             buffer_obj->buffer[buffer_obj->starting_point][size_of_the_new_buffer] = '\0';
             buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
@@ -57,17 +60,37 @@ void append_to_complex_buffer_with_line_break(complex_buffer_t* buffer_obj, char
         return;
     }
 
-    char* token = strtok(new_buffer, "\n");
-    
-    while(token != NULL){
-        size_t size_of_the_new_buffer = strlen(token);
-        buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* size_of_the_new_buffer);
 
-        strncpy(buffer_obj->buffer[buffer_obj->size], token, size_of_the_new_buffer );
-        buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
-        buffer_obj->size++;
+
+    token = strtok(new_buffer, "\n");
+    if (buffer_obj->size != 0){
+        size_t size_of_the_previous_buffer = strlen(buffer_obj->buffer[buffer_obj->size -1]);
+        size_of_the_new_buffer = strlen(token);
+
+        if (buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer - 1] != '\n'){
+            // The previous line didn't finish
+            strcpy(&(buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer]), token);
+            buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer + size_of_the_new_buffer] = '\0';
+        }
         token = strtok(NULL, "\n");
     }
+    
+
+    while(token != NULL){
+        size_t size_of_the_new_buffer = strlen(token);
+
+        buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* MAX_MESSAGE_LENGTH);
+
+
+        strcpy(buffer_obj->buffer[buffer_obj->size], token);
+        buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
+        buffer_obj->size++;
+        if(buffer_obj->size == buffer_obj->max_size){
+            goto CIRCELING;
+        }
+        token = strtok(NULL, "\n");
+    }
+
     
 }
 void append_to_complex_buffer_with_size(complex_buffer_t* buffer_obj, char* new_buffer, size_t n){

@@ -1,44 +1,42 @@
 #include "../../../lib/tui/chat_page.h"
+#include "../../format.c"
 #include "../../complex_buffer.c"
 #include "../../../lib/tui/color_pairs.h"
 
 void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
 
 
+    /* Clear the window  */
+    for( int y = 0; y < 50; y++){
+        wmove(window, y, 0);          // move to begining of line
+        wclrtoeol(window);          // clear line
+    }
+    // clrtoeol clears the border 
+    box(window, 0, 0);
+
+
     if (buffer->size  == buffer->max_size){
-        // It's full and therefore it will circleate
+        // The buffer's full and therefore it will circleate
         int index = buffer->starting_point + 1;
         int y_offset = 0;
 
         while (index != buffer->starting_point ){
+            try_format_response(&buffer->buffer[index]);
 
             mvwaddstr(window, 1 + y_offset, 2, buffer->buffer[index]);
 
-            index++;
             y_offset++;
-            if (index == buffer->max_size){
-                index = 0;
-            }
+            index = index == (buffer->max_size) ? 0 : (index + 1) ;
         }
-        return;
-    }
-    bool is_header_active = false;
-    for (int i = buffer->size -1 ; i>=0; i--){
-        for(int character_index = 0; character_index< strlen(buffer->buffer[i]); character_index++){
-            if(buffer->buffer[i][character_index] == ':'){
-                is_header_active = !is_header_active;
-            }
+        
+    }else{
+        for (int i = buffer->size -1 ; i>=0; i--){
+            try_format_response(buffer->buffer[i]);
 
-            if(is_header_active){
-                wattron(window, COLOR_PAIR(MAIN_COLOR_PAIR_REVERSED));
-                mvwaddch(window, 1 + i, 2+character_index, buffer->buffer[i][character_index]);
-                wattroff(window, COLOR_PAIR(MAIN_COLOR_PAIR_REVERSED));
-
-            }else{
-                mvwaddch(window, 1 + i, 2+character_index, buffer->buffer[i][character_index]);
-            }
+            mvwaddstr(window, 1+i, 2, buffer->buffer[i]);
         }
     }
+    
 }
 
 WINDOW* start_history_box_window(WINDOW* base_window){

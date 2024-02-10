@@ -2,6 +2,7 @@
 #include <curses.h>
 #include <pthread.h> 
 #include "../../tab.h"
+#include "../../user.h"
 
 /* Size of the popup window  */
 #define ACTIVE_TAB_BOX_WINDOW_WIDTH 30
@@ -11,5 +12,5 @@
 #define ACTIVE_TAB_BOX_WINDOW_COLS 440
 
 
-void update_tabs_box(WINDOW* tabs_window, char** buffer, int* size_of_users, pthread_mutex_t* gui_lock);
+void update_tabs_box(WINDOW* tabs_window, struct user* session_user);
 WINDOW* start_tabs_box(WINDOW* base_window);

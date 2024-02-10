@@ -23,7 +23,10 @@
         "inet.h": "c",
         "message_handler.h": "c",
         "complex_buffer.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "input_field.h": "c",
+        "information_box.h": "c",
+        "format.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

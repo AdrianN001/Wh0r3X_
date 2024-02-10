@@ -6,6 +6,11 @@ void add_new_tab(struct user* session_user, char* name){
     strcpy(empty_tab->name, name);
     empty_tab->next = NULL;
 
+    if(session_user->list_of_active_channels_head == NULL){
+        session_user->list_of_active_channels_head = empty_tab;
+        return;
+    }
+
     tab_t* head = session_user->list_of_active_channels_head;
     while(head->next != NULL){
         head = head->next;
@@ -45,13 +50,15 @@ bool remove_tab(struct user* session_user, char* name){
 
 }
 bool linked_list_contains(tab_t* head, char* name){
+    if (!head){
+        return false;
+    }
     
     while(head->next != NULL){
-        head = head->next;
-
         if ( strcmp( head->name, name) == 0){
             return true;
         }
+        head = head->next;
     }
 
     return false;

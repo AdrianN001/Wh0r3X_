@@ -2,6 +2,8 @@
 
 
 void update_input_box(WINDOW* window, char new_character, form_buffer_t* buffer){
+
+  
     
     switch((int)new_character){
         case 0x07:{ /* Backspace ( actually the BELL ) */

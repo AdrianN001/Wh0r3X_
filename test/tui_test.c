@@ -104,12 +104,13 @@ int main(){
 
     /* Create new user */
     login_result_t res = start_login_page(main_window);
-    init_user(&new_user, res.nickname, res.username, res.realname);
+    init_user(&new_user, "adrian", "adrian", "adrian");
     clear();
     /* Connect to new server */
+    
     char* server_name = start_connection_popup_box(main_window);
     connect_user_to_server(&new_user, server_name, 6667);
-    clear();
+    //clear();
 
 
     worker_thread_args_t history_buffer_fill_worker = {
@@ -142,6 +143,16 @@ int main(){
                 break;
             case 0x0A: /* Enter ( actually the NL ) */{
                 if (input_buffer.size == 0) { break; }
+
+                /* Clear the window  */
+                for( int y = 0; y < 50; y++){
+                    wmove(input_box, y, 0);          // move to begining of line
+                    wclrtoeol(input_box);          // clear line
+                }
+                // clrtoeol clears the border 
+                box(input_box, 0, 0);
+
+
                 send_message(&new_user, input_buffer.buffer);
                 append_to_complex_buffer(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
@@ -160,6 +171,7 @@ UPDATE:
         update_info_box(info_box);
         update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
         update_history_box(history_box,&history_buffer, &history_buffer_lock);
+        update_tabs_box(active_tabs, NULL);
 
 
         
