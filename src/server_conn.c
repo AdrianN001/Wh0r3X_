@@ -43,6 +43,7 @@ struct in_addr resolve_ip_address_from_hostname(const char* hostname){
 int create_connection(struct server_conn* new_connection, const char* host, int port, int connect_method){
     struct sockaddr_in servaddr;
     int temp_sockfd;
+    new_connection->ping_pong_phrase = malloc(sizeof(char) * 32);
 
     // Create a socket descriptor
     temp_sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -21,7 +21,7 @@
 void away( struct user* current_user, char* args){
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "AWAY %s", args);
+    sprintf(buffer, "AWAY %s\n", args);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -41,7 +41,7 @@ void invite( struct user* current_user, char* args){
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
-    sprintf(buffer, "INVITE %s %s", nickname, channel);
+    sprintf(buffer, "INVITE %s %s\n", nickname, channel);
 
     send_text_to_server(&current_user->conn, buffer);
 }
@@ -118,7 +118,7 @@ void msg( struct user* current_user, char* args){
 
     char target[16] = {0};
     char message[256] = {0};
-    sscanf(args, "/%s %s", target, message);
+    sscanf(args, "%s %[a-zA-Z0-9.?~!+: ]", target, message);
 
 
     char buffer[256] = {0}; 
@@ -156,7 +156,7 @@ void notice( struct user* current_user,char* args){
 
     char nickname[16] = {0};
     char message[256] = {0};
-    sscanf(args, "/%s %s", nickname, message);
+    sscanf(args, "%s %s", nickname, message);
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));
@@ -192,7 +192,7 @@ void privmsg( struct user* current_user, char* args){
 
     char target[16] = {0};
     char message[256] = {0};
-    sscanf(args, "/%s %s", target, message);
+    sscanf(args, "%s %[a-zA-Z0-9.?~!+: ]", target, message);
 
 
     char buffer[256] = {0}; 
@@ -237,7 +237,7 @@ void topic( struct user* current_user, char* args){
 
     char channel[16] = {0};
     char topic[256] = {0};
-    sscanf(args, "/%s %s", channel, topic);
+    sscanf(args, "%s %[a-zA-Z0-9.?~!+: ]", channel, topic);
 
     char buffer[64] = {0}; 
     memset(buffer, 0, 64 * sizeof(char));

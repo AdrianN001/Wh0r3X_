@@ -69,11 +69,9 @@ void send_message(struct user* current_user, char* buffer){
 
         char verb[16] = {0};
         char args[256] = {0};
-        sscanf(buffer, "/%s %s", verb, args);
+        sscanf(buffer, "/%s %[a-zA-Z0-9.?~!#+: ]", verb, args);
 
-        if (!strlen(verb)) return;
-
-
+        if (*verb == 0) return;
 
         for (int i = 0; i < 32; i++){
             irc_verb_pair_t current_pair = pairs[i];

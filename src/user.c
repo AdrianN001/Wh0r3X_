@@ -101,6 +101,10 @@ void* fill_buffer_with_incomming_text(void* args){
             break;
         }
         append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
+        int size_of_pong_phrase;
+        if ((size_of_pong_phrase = check_for_ping(main_buffer, session_user->conn.ping_pong_phrase)) != 0){
+            write(session_user->conn.sockfd, session_user->conn.ping_pong_phrase, strlen(session_user->conn.ping_pong_phrase));
+        }
        
     }
     exit(1);

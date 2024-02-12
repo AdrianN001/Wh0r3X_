@@ -104,7 +104,7 @@ int main(){
 
     /* Create new user */
     login_result_t res = start_login_page(main_window);
-    init_user(&new_user, "adrian", "adrian", "adrian");
+    init_user(&new_user, "valami", "valami", "adrian rael");
     clear();
     /* Connect to new server */
     
@@ -154,6 +154,7 @@ int main(){
 
 
                 send_message(&new_user, input_buffer.buffer);
+                append_to_buffer(&input_buffer, '\n');
                 append_to_complex_buffer(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
                 break;

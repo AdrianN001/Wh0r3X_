@@ -1,6 +1,7 @@
 #ifndef COMPLEX_BUFFER
 #define COMPLEX_BUFFER
 
+#include "format.c"
 #include "../lib/complex_buffer.h"
 #include <string.h>
 
@@ -17,18 +18,20 @@ complex_buffer_t create_complex_buffer(const int max_size){
 }
 
 void append_to_complex_buffer(complex_buffer_t* buffer_obj, char* new_buffer){
+    size_t size_of_the_new_buffer = strlen(new_buffer);
     
     if(buffer_obj->size == buffer_obj->max_size){ 
         strcpy(buffer_obj->buffer[buffer_obj->starting_point], new_buffer);
+        buffer_obj->buffer[buffer_obj->starting_point][size_of_the_new_buffer] = '\0';
         buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
         return;
     }
     
-    size_t size_of_the_new_buffer = strlen(new_buffer);
 
     buffer_obj->buffer[buffer_obj->size] = malloc(sizeof(char)* size_of_the_new_buffer);
     memset(buffer_obj->buffer[buffer_obj->size], 0, sizeof(char)* size_of_the_new_buffer);
-    strncpy(buffer_obj->buffer[buffer_obj->size], new_buffer, strlen(new_buffer));
+    strncpy(buffer_obj->buffer[buffer_obj->size], new_buffer, size_of_the_new_buffer);
+    buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
     buffer_obj->size++;
 }
 
@@ -50,10 +53,12 @@ void append_to_complex_buffer_with_line_break(complex_buffer_t* buffer_obj, char
 CIRCELING:
         token = strtok(new_buffer, "\n");
 
+
         while(token != NULL){
             size_of_the_new_buffer = strlen(token);
             strncpy(buffer_obj->buffer[buffer_obj->starting_point], token, size_of_the_new_buffer );
             buffer_obj->buffer[buffer_obj->starting_point][size_of_the_new_buffer] = '\0';
+            try_format_response( buffer_obj->buffer[buffer_obj->starting_point]);
             buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
             token = strtok(NULL, "\n");
         }
@@ -71,8 +76,10 @@ CIRCELING:
             // The previous line didn't finish
             strcpy(&(buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer]), token);
             buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer + size_of_the_new_buffer] = '\0';
+            try_format_response(buffer_obj->buffer[buffer_obj->size -1]);
+            token = strtok(NULL, "\n");
+
         }
-        token = strtok(NULL, "\n");
     }
     
 
@@ -84,6 +91,8 @@ CIRCELING:
 
         strcpy(buffer_obj->buffer[buffer_obj->size], token);
         buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
+        try_format_response(buffer_obj->buffer[buffer_obj->size ]);
+
         buffer_obj->size++;
         if(buffer_obj->size == buffer_obj->max_size){
             goto CIRCELING;

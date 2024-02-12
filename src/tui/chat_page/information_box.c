@@ -8,9 +8,9 @@ void fetch_current_time(char* buffer){
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     if (timeinfo->tm_sec >= 10){
-        sprintf(buffer, "%d:%d:%d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+        sprintf(buffer, " %d:%d:%d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
     }else{
-        sprintf(buffer, "%d:%d:0%d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+        sprintf(buffer, " %d:%d:0%d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
 
     }
 }

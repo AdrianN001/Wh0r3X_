@@ -26,7 +26,8 @@
         "stdbool.h": "c",
         "input_field.h": "c",
         "information_box.h": "c",
-        "format.h": "c"
+        "format.h": "c",
+        "tab.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

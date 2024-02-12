@@ -21,7 +21,7 @@ void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_
         int y_offset = 0;
 
         while (index != buffer->starting_point ){
-            try_format_response(&buffer->buffer[index]);
+            //try_format_response(&buffer->buffer[index]);
 
             mvwaddstr(window, 1 + y_offset, 2, buffer->buffer[index]);
 
@@ -31,7 +31,7 @@ void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_
         
     }else{
         for (int i = buffer->size -1 ; i>=0; i--){
-            try_format_response(buffer->buffer[i]);
+            //try_format_response(buffer->buffer[i]);
 
             mvwaddstr(window, 1+i, 2, buffer->buffer[i]);
         }
