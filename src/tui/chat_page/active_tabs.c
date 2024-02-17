@@ -5,6 +5,8 @@
 void update_tabs_box(WINDOW* tabs_window, struct user* session_user){
 
 
+    
+
     for( int y = 2; y < 12; y++){
         wmove(tabs_window, y, 1);          // move to begining of line
         wclrtoeol(tabs_window);          // clear line

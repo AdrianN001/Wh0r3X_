@@ -71,10 +71,10 @@ void join( struct user* current_user, char* args){
     memset(buffer, 0, 64 * sizeof(char));
     sprintf(buffer, "JOIN %s %s\n", channel, passwd);
 
+    
 
-
-    bool already_connected = linked_list_contains(current_user->list_of_active_channels_head, channel);
-    if(!already_connected){
+    int index = linked_list_contains(current_user->list_of_active_channels_head, channel);
+    if(index == -1){
         add_new_tab(current_user, channel);
     }
 
@@ -176,9 +176,12 @@ void part( struct user* current_user, char* args){
     memset(buffer, 0, 64 * sizeof(char));
     sprintf(buffer, "PART %s\n", args);
 
-    remove_tab(current_user, args);
 
-    send_text_to_server(&current_user->conn, buffer);
+    bool found = remove_tab(current_user, args);
+    if (found){
+        send_text_to_server(&current_user->conn, buffer);
+    }
+
 }
 
 /*

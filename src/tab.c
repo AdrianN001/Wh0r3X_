@@ -54,25 +54,31 @@ bool remove_tab(struct user* session_user, char* name){
         return true;
 
     }
+    if(head->next == NULL){
+        return false;
+    }
     while(head->next->next != NULL){ // Check for in the middle
         head = head->next;
         if (strcmp(head->next->name, name) == 0){
+            tab_t* remove = head->next->name;
+            tab_t* next_one = head->next->next;
+            free_tab(head->next);
+            head->next = next_one;
             return true;
         }
     }
     if (strcmp(head->next->name, name) == 0){   // Check for at the very last item
+        free_tab(head->next);
+        head->next = (tab_t*)NULL;
         return true;
     }
 
-    tab_t* temp = head->next;
-    head->next = head->next->next; // jump one
-    free_tab(temp);
     return false;
 
 }
 int linked_list_contains(tab_t* head, char* name){
     if (!head){
-        return false;
+        return -1;
     }
     
     int index = 0;
