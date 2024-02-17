@@ -1,3 +1,6 @@
+#ifndef TAB 
+#define TAB
+
 #include "../lib/tab.h"
 
 void add_new_tab(struct user* session_user, char* name){
@@ -19,8 +22,7 @@ void add_new_tab(struct user* session_user, char* name){
     head->next = empty_tab;
 }
 
-tab_t* get_tab(struct user* session_user, char* name){
-    tab_t* head = session_user->list_of_active_channels_head;
+tab_t* get_tab(tab_t* head, char* name){
     if(!strcmp(head->name, name)){ // Check for the first one
         return head;
 
@@ -89,3 +91,5 @@ void free_tab(tab_t* free_tab){
     free_complex_buffer(&free_tab->buffer);
     free((void*)free_tab);
 }
+
+#endif

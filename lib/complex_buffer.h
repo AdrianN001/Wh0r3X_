@@ -3,6 +3,8 @@
 
 #define MAX_MESSAGE_LENGTH 1024
 
+#define size_t unsigned int
+
 typedef struct complex_buffer{
     char** buffer;
     int size;
@@ -18,7 +20,7 @@ void append_to_complex_buffer_with_size(complex_buffer_t* buffer_obj, char* new_
 // Returns the index
 int complex_buffer_contains(complex_buffer_t* buffer, char* searched_buffer);
 
-int remove_from_complex_buffer(complex_buffer_t* buffer, char* removed_buffer);
+int remove_from_complex_buffer(complex_buffer_t* buffer, char* buffer_to_remove);
 
 void pop_from_complex_buffer(complex_buffer_t* buffer_obj);
 void free_complex_buffer(complex_buffer_t* buffer);

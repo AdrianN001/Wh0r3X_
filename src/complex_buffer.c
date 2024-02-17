@@ -56,9 +56,11 @@ CIRCELING:
 
         while(token != NULL){
             size_of_the_new_buffer = strlen(token);
+            
+            strcpy(buffer_obj->buffer[buffer_obj->starting_point], "");
             strncpy(buffer_obj->buffer[buffer_obj->starting_point], token, size_of_the_new_buffer );
             buffer_obj->buffer[buffer_obj->starting_point][size_of_the_new_buffer] = '\0';
-            try_format_response( buffer_obj->buffer[buffer_obj->starting_point]);
+            //try_format_response( buffer_obj->buffer[buffer_obj->starting_point]);
             buffer_obj->starting_point = (buffer_obj->starting_point + 1) % buffer_obj->max_size;
             token = strtok(NULL, "\n");
         }
@@ -76,7 +78,7 @@ CIRCELING:
             // The previous line didn't finish
             strcpy(&(buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer]), token);
             buffer_obj->buffer[buffer_obj->size -1][size_of_the_previous_buffer + size_of_the_new_buffer] = '\0';
-            try_format_response(buffer_obj->buffer[buffer_obj->size -1]);
+            //try_format_response(buffer_obj->buffer[buffer_obj->size -1]);
             token = strtok(NULL, "\n");
 
         }
@@ -91,7 +93,7 @@ CIRCELING:
 
         strcpy(buffer_obj->buffer[buffer_obj->size], token);
         buffer_obj->buffer[buffer_obj->size][size_of_the_new_buffer] = '\0';
-        try_format_response(buffer_obj->buffer[buffer_obj->size ]);
+       // try_format_response(buffer_obj->buffer[buffer_obj->size ]);
 
         buffer_obj->size++;
         if(buffer_obj->size == buffer_obj->max_size){

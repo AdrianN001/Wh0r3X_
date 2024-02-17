@@ -2,6 +2,8 @@
 #include "complex_buffer.h"
 #include <stdbool.h>
 
+#define GREETING_PAGE_TAB_NAME "greeting_page"
+
 typedef struct tab{
     char name[32];
 
@@ -13,7 +15,7 @@ typedef struct tab{
 #include "user.h" // Not the best method
 
 void add_new_tab(struct user* session_user, char* name);
-tab_t* get_tab(struct user* session_user, char* name);
+tab_t* get_tab(tab_t* head, char* name);
 
 /*
     Returns whether it found the given tab

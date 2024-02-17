@@ -7,13 +7,9 @@ void fetch_current_time(char* buffer){
     struct tm* timeinfo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    if (timeinfo->tm_sec >= 10){
-        sprintf(buffer, " %d:%d:%d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-    }else{
-        sprintf(buffer, " %d:%d:0%d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-
-    }
+    sprintf(buffer, " %02d:%02d:%02d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
 }
+    
 
 void fetch_current_date(char* buffer){
     time_t rawtime;
@@ -21,7 +17,7 @@ void fetch_current_date(char* buffer){
     time(&rawtime);
     timeinfo = localtime(&rawtime);
 
-    sprintf(buffer, "%d-%d-%d",timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday);
+    sprintf(buffer, "%d-%02d-%02d",timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday);
 }
 
 

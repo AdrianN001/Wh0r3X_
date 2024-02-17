@@ -9,9 +9,11 @@
 #include <arpa/inet.h> 
 #include <unistd.h>
 
-#include "complex_buffer.c"
 
 #include "../lib/user.h"
+#include "complex_buffer.c"
+#include "format.c"
+
 
 char* generate_username_command(const char* username, const char* realname){
     /* Not the greatest, and most well-written code that I've ever wrote, I have to admit*/
@@ -100,9 +102,10 @@ void* fill_buffer_with_incomming_text(void* args){
         if(!bytes_read){
             break;
         }
-        append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
+        //append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
+        format_and_group_incomming_messages(session_user, temp_buffer);
         int size_of_pong_phrase;
-        if ((size_of_pong_phrase = check_for_ping(main_buffer, session_user->conn.ping_pong_phrase)) != 0){
+        if ((size_of_pong_phrase = check_for_ping(temp_buffer, session_user->conn.ping_pong_phrase)) != 0){
             write(session_user->conn.sockfd, session_user->conn.ping_pong_phrase, strlen(session_user->conn.ping_pong_phrase));
         }
        

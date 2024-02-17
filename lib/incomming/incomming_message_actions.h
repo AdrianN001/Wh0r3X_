@@ -1,5 +1,5 @@
 #pragma once
-#include "user.h"
+#include "../user.h"
 
 
 /*
@@ -13,7 +13,7 @@
         -msg 
         
 */
-void join( struct user* current_user, char* author_tag, char* args);
+bool incomming_away( struct user* current_user, char* author_tag, char* args);
 
 /*
     Invites a nickname to a channel that you are on.
@@ -22,7 +22,7 @@ void join( struct user* current_user, char* author_tag, char* args);
         - nickname
         - channel
 */
-void invite( struct user* current_user, char* args);
+bool incomming_invite( struct user* current_user, char* args);
 
 /*
     Joins the specified channel.
@@ -35,7 +35,7 @@ void invite( struct user* current_user, char* args);
         - channel
         - password
 */
-void join( struct user* current_user, char* args);
+bool incomming_join( struct user* current_user,  char* author_tag,char* args);
 
 /*
     Lists currently available channels.
@@ -44,7 +44,7 @@ void join( struct user* current_user, char* args);
     @param: 
         - list of channels
 */
-void list( struct user* current_user, char* args);
+bool incomming_list( struct user* current_user, char* args);
 
 /*
     Sends an action message to the current channel or query window. 
@@ -53,7 +53,7 @@ void list( struct user* current_user, char* args);
     @param: 
         - message
 */
-void me( struct user* current_user, char* args);
+bool incomming_me( struct user* current_user, char* args);
 
 /*
     Sends a private message to nickname without opening a query window.
@@ -62,7 +62,7 @@ void me( struct user* current_user, char* args);
         - target
         - message
 */
-void msg( struct user* current_user, char* author_tag, char* args);
+bool incomming_msg( struct user* current_user, char* author_tag, char* args);
 
 /*
     Changes your nickname to a new nickname.
@@ -70,7 +70,7 @@ void msg( struct user* current_user, char* author_tag, char* args);
     @param: 
         - new_nickname
 */
-void nickname( struct user* current_user, char* args);
+bool incomming_nickname( struct user* current_user, char* args);
 
 /*
     Sends a notice to the specified user. Like a /msg, but usually makes a sound.
@@ -79,7 +79,7 @@ void nickname( struct user* current_user, char* args);
         - nickname
         - message
 */
-void notice( struct user* current_user,char* args);
+bool incomming_notice( struct user* current_user,char* args);
 
 /*
     Leaves a channel that you are on.
@@ -87,7 +87,7 @@ void notice( struct user* current_user,char* args);
     @param: 
         - channel
 */
-void part( struct user* current_user, char* author_tag, char* args);
+bool incomming_part( struct user* current_user, char* author_tag, char* args);
 
 /*
     Sends a private message to nickname that will open a query window for the other user.
@@ -96,7 +96,7 @@ void part( struct user* current_user, char* author_tag, char* args);
         - target
         - message
 */
-void privmsg( struct user* current_user, char* author_tag, char* args);
+bool incomming_privmsg( struct user* current_user, char* author_tag, char* args);
 
 /*
     Opens a query window to this nickname and sends them a private message.
@@ -105,7 +105,7 @@ void privmsg( struct user* current_user, char* author_tag, char* args);
         - nickname
         - message
 */
-void query( struct user* current_user, char* args);
+bool incomming_query( struct user* current_user, char* args);
 
 /*
     Disconnects you from IRC and will give the optional message as the reason for your departure. 
@@ -114,7 +114,7 @@ void query( struct user* current_user, char* args);
     @param: 
         - message
 */
-void quit( struct user* current_user, char* args);
+bool incomming_quit( struct user* current_user, char* args);
 
 /*
     Changes the topic for a channel that you are on.
@@ -123,7 +123,7 @@ void quit( struct user* current_user, char* args);
         - channel
         - topic
 */
-void topic( struct user* current_user, char* args);
+bool incomming_topic( struct user* current_user, char* args);
 
 /*
     Shows you information about a nickname.
@@ -131,4 +131,4 @@ void topic( struct user* current_user, char* args);
     @param: 
         - nickname
 */
-void whois( struct user* current_user, char* args );
+bool incomming_whois( struct user* current_user, char* args );

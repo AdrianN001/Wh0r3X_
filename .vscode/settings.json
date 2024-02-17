@@ -27,7 +27,10 @@
         "input_field.h": "c",
         "information_box.h": "c",
         "format.h": "c",
-        "tab.h": "c"
+        "tab.h": "c",
+        "message_actions.h": "c",
+        "netdb.h": "c",
+        "stddef.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

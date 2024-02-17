@@ -9,7 +9,6 @@
 #include "../src/message_handler.c"
 
 
-
 #ifndef CTRL
 #define CTRL(c) ((c) & 037)
 #endif
@@ -71,7 +70,8 @@ WINDOW* users_box_debug(WINDOW* main_window){
 
 int main(){
     WINDOW* main_window;
-    struct user new_user = {0};
+    struct user session_user = {0};
+    add_new_tab(&session_user, GREETING_PAGE_TAB_NAME);
 
 
     srand(time(NULL));  
@@ -104,19 +104,19 @@ int main(){
 
     /* Create new user */
     login_result_t res = start_login_page(main_window);
-    init_user(&new_user, "valami", "valami", "adrian rael");
+    init_user(&session_user, "valami", "valami", "adrian rael");
     clear();
     /* Connect to new server */
     
     char* server_name = start_connection_popup_box(main_window);
-    connect_user_to_server(&new_user, server_name, 6667);
-    //clear();
+    connect_user_to_server(&session_user, server_name, 6667);
+    clear();
 
 
     worker_thread_args_t history_buffer_fill_worker = {
         .buffer = &history_buffer,
         .lock = &history_buffer_lock,
-        .session_user = &new_user,
+        .session_user = &session_user,
     };
 
     pthread_t worker_thread_id; 
@@ -153,9 +153,9 @@ int main(){
                 box(input_box, 0, 0);
 
 
-                send_message(&new_user, input_buffer.buffer);
-                append_to_buffer(&input_buffer, '\n');
-                append_to_complex_buffer(&history_buffer, input_buffer.buffer);
+                send_message(&session_user, input_buffer.buffer);
+                //append_to_buffer(&input_buffer, '\n');
+                //append_to_complex_buffer(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
                 break;
             }
@@ -171,8 +171,8 @@ int main(){
 UPDATE:
         update_info_box(info_box);
         update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
-        update_history_box(history_box,&history_buffer, &history_buffer_lock);
-        update_tabs_box(active_tabs, NULL);
+        update_history_box(history_box,&session_user.list_of_active_channels_head->buffer, &history_buffer_lock);
+        update_tabs_box(active_tabs, &session_user);
 
 
         

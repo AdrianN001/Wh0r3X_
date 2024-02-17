@@ -14,18 +14,22 @@ void update_tabs_box(WINDOW* tabs_window, struct user* session_user){
     mvwaddstr(tabs_window, 0, ACTIVE_TAB_BOX_WINDOW_WIDTH / 2 - 5, "Active Tabs:" );
 
 
-
-    char* buffer[] = {
-        "valami",
-        "asdasd",
-        "nigger"
-    };
-
-    for( int i = 0; i < 3; i++){
-        mvwaddstr(tabs_window, i + 2, 2, buffer[i]);
+    int offset = 0;
+    for( tab_t* current_tab_to_print = session_user->list_of_active_channels_head;
+        current_tab_to_print != NULL; 
+        current_tab_to_print = current_tab_to_print->next ){
+        if(current_tab_to_print == session_user->current_channel){
+            attron(COLOR_PAIR(WARNING_COLOR_PAIR));
+        }
+        mvwaddstr(tabs_window, offset + 2, 2, current_tab_to_print->name);
+        if(current_tab_to_print == session_user->current_channel){
+            attroff(COLOR_PAIR(WARNING_COLOR_PAIR));
+        }
+        wrefresh(tabs_window);
+        offset++;
     }
 
-
+    refresh();
     wrefresh(tabs_window);
 }
 
