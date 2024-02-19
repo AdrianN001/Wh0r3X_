@@ -89,13 +89,13 @@ srand(time(NULL));
     start_color();
     initialize_color_pairs();
 
-    /*
+
 
     login_result_t res = start_login_page(main_window);
     clear();
     start_connection_popup_box(main_window);
     clear();
-*/
+
 
 
     WINDOW* info_box = information_box_debug(main_window);
