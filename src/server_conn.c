@@ -40,9 +40,10 @@ struct in_addr resolve_ip_address_from_hostname(const char* hostname){
     return address;
 }
 
-int connect_server_to_endpoint(struct server_conn* new_connection, const char* host, int port, int connect_method){
+int create_connection(struct server_conn* new_connection, const char* host, int port, int connect_method){
     struct sockaddr_in servaddr;
     int temp_sockfd;
+    new_connection->ping_pong_phrase = malloc(sizeof(char) * 32);
 
     // Create a socket descriptor
     temp_sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -76,6 +77,9 @@ int connect_server_to_endpoint(struct server_conn* new_connection, const char* h
 }
 
 
+void send_text_to_server(struct server_conn* connection, char* buffer){
+    assert(write(connection->sockfd, buffer, strlen(buffer)));
+}
 
 
 void leave_server(struct server_conn* connection){

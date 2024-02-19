@@ -16,27 +16,36 @@ void print_login_result(login_result_t* res){
 }
 
 
-
 void print_background(WINDOW* window){
     FILE* file = fopen("assets/backgrounds/whorex3_grey_inv.txt", "r");
     if (file == NULL){
         return;
     }
     char buffer[256] = {0};
+    const int number_of_color_variants = 3;
+    const int size_of_the_input_file = 60;
 
-    while (fgets(buffer, sizeof(buffer), file)) { 
+    for (int row = 0; fgets(buffer, sizeof(buffer), file); row++) { 
+        int len_of_the_buffer = strlen(buffer);
 
-        for (int i = 0; i < strlen(buffer); i++){
-              
+        for (int i = 0; i < len_of_the_buffer; i++){
+
+            double row_ratio = (double)(row*i) / (double)(size_of_the_input_file * len_of_the_buffer);
+            double row_ratio_capped_to_five = row_ratio / (float)(10/number_of_color_variants) + 0.05;
+            int row_ratio_in_int = row_ratio_capped_to_five * 10;
+
+            int current_color = row_ratio_in_int + 10;
+           
             int random_color = (int)(rand() % 5) + 10;
-            wattron(window, COLOR_PAIR(random_color));
+            wattron(window, COLOR_PAIR(current_color));
             waddch(window,  buffer[i] | A_BOLD);
-            wrefresh(window);
-            wattroff(window, COLOR_PAIR(random_color));
+            wattroff(window, COLOR_PAIR(current_color));
 
         }
 
     }
+    wrefresh(window);
+
     refresh();
     fclose(file);
 
@@ -124,7 +133,8 @@ login_result_t start_login_page(WINDOW* main_window){
             case 0x03: /* Arrow up */
                 exit(1);
             case 0x02: /* Arrow down */
-                exit(1);
+                activate_form = (activate_form + 1) % 3; 
+                break;
             default:{   
                 /* Update the buffer */
                 form_buffer_t* active_buffer = &(input_buffers[activate_form]);

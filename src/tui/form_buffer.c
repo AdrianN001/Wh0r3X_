@@ -14,6 +14,7 @@ form_buffer_t create_buffer(const int max_size){
 void append_to_buffer(form_buffer_t* buffer_obj, char new_char){
     if(buffer_obj->size < buffer_obj->max_size){
         buffer_obj->buffer[buffer_obj->size++]=new_char;
+        buffer_obj->buffer[buffer_obj->size]='\0';
     }
 }
 char pop_from_buffer(form_buffer_t* buffer_obj){
@@ -26,6 +27,7 @@ char pop_from_buffer(form_buffer_t* buffer_obj){
 }
 void copyn(form_buffer_t* dest_buffer, char* src, short n){
     strncpy(dest_buffer->buffer, src, n);
+    dest_buffer->buffer[n] = 0;
     for(size_t i = n+1; i<dest_buffer->max_size;i++){dest_buffer->buffer[i] = '\0';} // clear the remaining part
     
 }
@@ -33,6 +35,11 @@ void extract(form_buffer_t* src_buffer, char* dest){
     src_buffer->buffer[src_buffer->size] = '\0';
     strncpy(dest, src_buffer->buffer, strlen(src_buffer->buffer));
 }
+void clear_buffer(form_buffer_t* buffer){
+    memset(buffer->buffer, 0, sizeof(char)*buffer->size);
+    buffer->size = 0;
+}
+
 void free_buffer(form_buffer_t* free_buffer){
     free(free_buffer->buffer);
 }

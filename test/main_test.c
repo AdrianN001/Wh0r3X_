@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "../src/user.c"
 #include "../src/tui/form_buffer.c"
+#include "../src/complex_buffer.c"
+#include "../src/message_handler.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 
@@ -21,7 +23,33 @@ void test_registration_process(){
 
     struct user new_user = {0};
     init_user(&new_user, "nickname_killer", "nicholas_name", "renaldo name");
-    connect_to_server(&new_user, "irc.w3.org", 6667);
+    connect_user_to_server(&new_user, "irc.w3.org", 6667);
+
+}
+
+void test_input_parsing(){
+    send_message(NULL, "/join valami");
+}
+
+void test_history_buffer(){
+    complex_buffer_t buffer = create_complex_buffer(64);
+    append_to_complex_buffer(&buffer, "buffer_1");
+    append_to_complex_buffer(&buffer, "buffer_2");
+    append_to_complex_buffer(&buffer, "buffer_3");
+    append_to_complex_buffer(&buffer, "buffer_4");
+    print_complex_buffer(&buffer);
+
+    pop_from_complex_buffer(&buffer);
+    pop_from_complex_buffer(&buffer);
+    append_to_complex_buffer(&buffer, "new_buffer (:");
+    append_to_complex_buffer(&buffer, "newer_buffer (:");
+
+    print_complex_buffer(&buffer);
+
+    int index = remove_from_complex_buffer(&buffer, "buffer_2");
+    print_complex_buffer(&buffer);
+
+
 
 }
 
@@ -51,22 +79,15 @@ void test_form_buffer(){
     free_buffer(&nickname_buffer);
 }
 
-/*
-void test_time_fetching(){
-    char buffer[25] = {0};
-    fetch_current_time(buffer);
-    printf("TIME: %s\n", buffer);
-    fetch_current_date(buffer);
-    printf("DATE: %s\n", buffer);
 
-}
-*/
 
 int main(void){
     printf("running test!\n");
     //test_form_buffer();
 
-    test_registration_process();
+    //test_registration_process();
+
+    test_input_parsing();
 
     return 0;
 }

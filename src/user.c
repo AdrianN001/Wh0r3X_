@@ -1,3 +1,6 @@
+#ifndef USER
+#define USER
+
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -6,9 +9,14 @@
 #include <arpa/inet.h> 
 #include <unistd.h>
 
+
 #include "../lib/user.h"
+#include "complex_buffer.c"
+#include "format.c"
+
 
 char* generate_username_command(const char* username, const char* realname){
+    /* Not the greatest, and most well-written code that I've ever wrote, I have to admit*/
     char* buffer = (char*)malloc(sizeof(char) * 64);
     strcpy(buffer, "USER ");
     const size_t username_length = strlen(username);
@@ -35,6 +43,11 @@ char* generate_nickname_command(const char* nickname){
 
 }
 
+void change_nickname(struct user* session_user, char* new_nickname){
+    memset(session_user->nickname, 0, strlen(session_user->nickname));
+    strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
+}
+
 void init_user(struct user* new_user, char* nickname, char* username, char* realname){
     new_user->nickname = malloc(sizeof(char) * 32);
     new_user->username = malloc(sizeof(char) * 32);
@@ -47,9 +60,18 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
 
 }
 
-void* registration_worker(void* vargp){
 
-    struct user* session_user = (struct user*)vargp;
+
+void connect_user_to_server(struct user* session_user, const char* host,int port){
+    memset(&(session_user->conn), 0, sizeof(struct server_conn));
+
+    int status = create_connection(&(session_user->conn), host, port, CONNECT_BY_HOSTNAME);
+  
+    if (status != 0){
+        printf("fatal error while joining the server\n");
+        exit(1);
+    }
+
 
     const char* username_command = generate_username_command(session_user->username, session_user->realname);
     const char* nickname_command = generate_nickname_command(session_user->nickname);
@@ -61,48 +83,45 @@ void* registration_worker(void* vargp){
     free((void*)username_command);
     free((void*)nickname_command);
 
-    return NULL;
-
+   
 }
 
 
-void connect_to_server(struct user* session_user, const char* host,int port){
-    memset(&(session_user->conn), 0, sizeof(struct server_conn));
+void* fill_buffer_with_incomming_text(void* args){
 
-    int status = connect_server_to_endpoint(&(session_user->conn), host, port, CONNECT_BY_HOSTNAME);
-  
+    worker_thread_args_t* args_with_type = (worker_thread_args_t*)args;
 
-    if (status != 0){
-        printf("fatal error while joining the server\n");
-        exit(1);
-    }
+    struct user* session_user = args_with_type->session_user;
+    complex_buffer_t* main_buffer = args_with_type->buffer;
+    pthread_mutex_t* lock = args_with_type->lock;
 
-
-    const char* username_command = generate_username_command(session_user->username, session_user->realname);
-    const char* nickname_command = generate_nickname_command(session_user->nickname);
-
-    send(session_user->conn.sockfd, username_command, strlen(username_command),0);
-    send(session_user->conn.sockfd, nickname_command, strlen(nickname_command),0);
-
-
-    free((void*)username_command);
-    free((void*)nickname_command);
-
-    char buffer[512] = {0};
+    char temp_buffer[MAX_MESSAGE_LENGTH] = {0};
     for (;;){
-        memset(buffer, 0, sizeof(buffer));
-        size_t bytes_read = read(session_user->conn.sockfd, buffer, sizeof(buffer));
+        memset(temp_buffer, 0, sizeof(temp_buffer));
+        size_t bytes_read = read(session_user->conn.sockfd, temp_buffer, sizeof(temp_buffer));
         if(!bytes_read){
             break;
         }
-        printf("recieved: %s\n", buffer);
+        //append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
+        format_and_group_incomming_messages(session_user, temp_buffer);
+        int size_of_pong_phrase;
+        if ((size_of_pong_phrase = check_for_ping(temp_buffer, session_user->conn.ping_pong_phrase)) != 0){
+            write(session_user->conn.sockfd, session_user->conn.ping_pong_phrase, strlen(session_user->conn.ping_pong_phrase));
+        }
+       
     }
+    exit(1);
+    return NULL;
 }
 
 void free_user(struct user* _del_user){
     free(_del_user->nickname);
     free(_del_user->realname);
     free(_del_user->username);
+
+    // TABs CLEARING MUST BE IMPLEMENTED
+    assert(0);
+
 }
 
 
@@ -115,3 +134,5 @@ void leave_server_as_user(struct user* session_user){
     free_user(session_user);
     
 }
+
+#endif
