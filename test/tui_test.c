@@ -100,10 +100,6 @@ int main(){
     start_color();
     initialize_color_pairs();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dae8b1de63ea7bca3e8945be142d3b3b66be6762
 
 
     /* Create new user */
@@ -116,8 +112,6 @@ int main(){
     connect_user_to_server(&session_user, server_name, 6667);
     clear();
 
-<<<<<<< HEAD
-=======
 
     worker_thread_args_t history_buffer_fill_worker = {
         .buffer = &history_buffer,
@@ -127,7 +121,6 @@ int main(){
 
     pthread_t worker_thread_id; 
     pthread_create(&worker_thread_id, NULL, &fill_buffer_with_incomming_text, &history_buffer_fill_worker);
->>>>>>> dae8b1de63ea7bca3e8945be142d3b3b66be6762
 
 
     WINDOW* info_box = information_box_debug(main_window);
