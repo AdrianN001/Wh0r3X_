@@ -7,6 +7,7 @@ COMPILE_FILE=main.c
 TEST_FILE=./test/main_test.c
 TUI_TEST_FILE=./test/tui_test.c
 NCURSES_FLAG=-lncurses
+BUILD_DIRECTORY= ./out
 WARNING_FLAGS=-Wall -pedantic
 
 
@@ -16,6 +17,7 @@ all:
 
 testing:
 	$(CC) $(OPT) -o ./out/test.out $(WARNING_FLAGS) $(TEST_FILE)
+
 tui_testing:
 	$(CC) $(OPT) $(NCURSES_FLAG) -o ./out/test.out $(WARNING_FLAGS) $(TUI_TEST_FILE)
 
