@@ -75,7 +75,7 @@ int check_for_ping(char* response_buffer, char* ping_buffer){
     return 1;
 }
 
-format_and_group_incomming_messages(struct user* session_user, char* temp_buffer){
+int format_and_group_incomming_messages(struct user* session_user, char* temp_buffer){
     complex_buffer_t messages_with_line_breaks = create_complex_buffer(6);
     append_to_complex_buffer_with_line_break(&messages_with_line_breaks,temp_buffer);
     char out[512] = {0};
