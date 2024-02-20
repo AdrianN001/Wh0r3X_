@@ -56,6 +56,8 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
     strncpy(new_user->nickname, nickname, strlen(nickname));
     strncpy(new_user->username, username, strlen(username));
     strncpy(new_user->realname, realname, strlen(realname));
+
+    new_user->current_channel = NULL;
     new_user->conn = (struct server_conn){0};
 
 }
@@ -94,6 +96,8 @@ void* fill_buffer_with_incomming_text(void* args){
     struct user* session_user = args_with_type->session_user;
     complex_buffer_t* main_buffer = args_with_type->buffer;
     pthread_mutex_t* lock = args_with_type->lock;
+
+    initialize_incomming_verb_pairs();
 
     char temp_buffer[MAX_MESSAGE_LENGTH] = {0};
     for (;;){

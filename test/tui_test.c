@@ -71,7 +71,6 @@ WINDOW* users_box_debug(WINDOW* main_window){
 int main(){
     WINDOW* main_window;
     struct user session_user = {0};
-    add_new_tab(&session_user, GREETING_PAGE_TAB_NAME);
 
 
     srand(time(NULL));  
@@ -112,6 +111,8 @@ int main(){
     connect_user_to_server(&session_user, server_name, 6667);
     clear();
 
+    add_new_tab(&session_user, GREETING_PAGE_TAB_NAME);
+
 
     worker_thread_args_t history_buffer_fill_worker = {
         .buffer = &history_buffer,
@@ -133,9 +134,9 @@ int main(){
 
     form_buffer_t input_buffer = create_buffer(128);
 
+
 //  event loop
     for(;;){
-
         int key_pressed = wgetch(input_box);
         switch(key_pressed){
             case ERR:
@@ -163,6 +164,9 @@ int main(){
                 start_connection_popup_box(main_window);
                 break;
             }
+            case 0x09: /* TAB */
+                session_user.current_channel = session_user.current_channel->next == NULL ? session_user.list_of_active_channels_head : session_user.current_channel->next;
+                break;
             default:{
                 update_input_box(input_box, (char)key_pressed, &input_buffer);
             }
@@ -171,7 +175,7 @@ int main(){
 UPDATE:
         update_info_box(info_box);
         update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
-        update_history_box(history_box,&session_user.list_of_active_channels_head->buffer, &history_buffer_lock);
+        update_history_box(history_box,session_user.current_channel->name, &session_user.current_channel->buffer, &history_buffer_lock);
         update_tabs_box(active_tabs, &session_user);
 
 

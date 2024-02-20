@@ -23,19 +23,19 @@ char* try_format_response(struct user* session_user, char* response_buffer, char
 
 
     // User Action
-    sscanf(response_buffer, ":%[a-zA-Z0-9/-.]!%[a-zA-Z0-9~]@%[a-zA-Z0-9/-.] %[a-zA-Z0-9.?~!+: ]", nickname, username, host, body);
+    sscanf(response_buffer, ":%[a-zA-Z0-9/_-.]!%[a-zA-Z0-9_~]@%[a-zA-Z0-9/-_.] %[a-zA-Z0-9.?~!+:_# ]", nickname, username, host, body);
     
     
     if(*username != 0 && *nickname != 0 && *host != 0 && *body != 0){
             // Create author
         char reformatted_text[516] = {0};
         char author_tag[64] = {0};
-
         sprintf(author_tag, "<%s:[%s]>", nickname, username);
         const size_t size_of_author_tag = strlen(out);
 
+        
         // It groups the response to the tab
-        group_to_the_proper_tab(session_user, author_tag, body);
+        group_to_the_proper_tab(session_user, nickname, author_tag, body);
 
         // Finalize
         strcpy(out, "");

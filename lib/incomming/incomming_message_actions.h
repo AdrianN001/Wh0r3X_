@@ -96,7 +96,8 @@ bool incomming_part( struct user* current_user, char* author_tag, char* args);
         - target
         - message
 */
-bool incomming_privmsg( struct user* current_user, char* author_tag, char* args);
+bool incomming_privmsg_between_users( struct user* current_user, char* nickname_of_author, char* author_tag, char* args);
+bool incomming_privmsg_in_channel( struct user* current_user, char* author_tag, char* args);
 
 /*
     Opens a query window to this nickname and sends them a private message.

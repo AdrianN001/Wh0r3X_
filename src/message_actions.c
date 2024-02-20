@@ -205,6 +205,12 @@ void privmsg( struct user* current_user, char* args){
     send_text_to_server(&current_user->conn, buffer);
 }
 
+void custom_privmsg(struct user* session_user, char* target, char* body){
+    char buffer[316] = {0};
+    sprintf(buffer, "PRIVMSG %s %s\n", target, body);
+    send_text_to_server(&session_user->conn, buffer);
+}
+
 /*
     Opens a query window to this nickname and sends them a private message.
 

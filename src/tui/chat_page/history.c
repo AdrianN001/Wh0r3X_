@@ -3,7 +3,7 @@
 #include "../../complex_buffer.c"
 #include "../../../lib/tui/color_pairs.h"
 
-void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
+void update_history_box(WINDOW* window, char* title, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
 
 
     /* Clear the window  */
@@ -14,6 +14,7 @@ void update_history_box(WINDOW* window, complex_buffer_t* buffer, pthread_mutex_
     // clrtoeol clears the border 
     box(window, 0, 0);
 
+    mvwaddstr(window, 0, 110, title);
 
     if (buffer->size  == buffer->max_size){
         // The buffer's full and therefore it will circleate

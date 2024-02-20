@@ -97,6 +97,7 @@ void part( struct user* current_user, char* args);
         - message
 */
 void privmsg( struct user* current_user, char* args);
+void custom_privmsg(struct user* session_user, char* target, char* body);
 
 /*
     Opens a query window to this nickname and sends them a private message.

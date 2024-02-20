@@ -82,8 +82,12 @@ void send_message(struct user* current_user, char* buffer){
         }
 
     }else{
-
         // It is a message
+
+        custom_privmsg(current_user, current_user->current_channel->name, buffer);
+        char graphical_buffer[316] = {0};
+        sprintf(graphical_buffer, "<YOU>: %s", buffer);
+        append_to_complex_buffer(&current_user->current_channel->buffer, graphical_buffer);
 
     }
    
