@@ -14,7 +14,6 @@ WARNING_FLAGS=-Wall -pedantic
 all: 
 	$(CC) $(OPT) -o ./out/a.out $(COMPILE_FILE)
 
-
 testing:
 	$(CC) $(OPT) -o ./out/test.out $(WARNING_FLAGS) $(TEST_FILE)
 

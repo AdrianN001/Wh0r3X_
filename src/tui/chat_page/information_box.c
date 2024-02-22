@@ -31,7 +31,7 @@ void update_info_box(WINDOW* info_window){
     fetch_current_time(time_buffer);
     mvwaddstr(info_window, 1,1, time_buffer);
     fetch_current_date(date_buffer);
-    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT -2, INFORMATION_BOX_WINDOW_WIDTH - 10, date_buffer);
+    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT -2, INFORMATION_BOX_WINDOW_WIDTH - 12, date_buffer);
 
     wrefresh(info_window);
 }

@@ -23,7 +23,7 @@ char* try_format_response(struct user* session_user, char* response_buffer, char
 
 
     // User Action
-    sscanf(response_buffer, ":%[a-zA-Z0-9/_-.]!%[a-zA-Z0-9_~]@%[a-zA-Z0-9/-_.] %[a-zA-Z0-9.?~!+:_# ]", nickname, username, host, body);
+    sscanf(response_buffer, ":%[a-zA-Z0-9/_-.]!%[a-zA-Z0-9_-~]@%[a-zA-Z0-9_.-]%[a-zA-Z0-9.-?~!+:_# ]", nickname, username, host, body);
     
     
     if(*username != 0 && *nickname != 0 && *host != 0 && *body != 0){
