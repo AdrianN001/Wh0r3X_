@@ -178,6 +178,7 @@ void part( struct user* current_user, char* args){
 
 
     bool found = remove_tab(current_user, args);
+    current_user->current_channel = current_user->list_of_active_channels_head;
     if (found){
         send_text_to_server(&current_user->conn, buffer);
     }

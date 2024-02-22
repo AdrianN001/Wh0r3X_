@@ -83,6 +83,7 @@ void send_message(struct user* current_user, char* buffer){
 
     }else{
         // It is a message
+        if (current_user->current_channel == current_user->list_of_active_channels_head){return;}
 
         custom_privmsg(current_user, current_user->current_channel->name, buffer);
         char graphical_buffer[316] = {0};
