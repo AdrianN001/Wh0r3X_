@@ -30,7 +30,8 @@
         "tab.h": "c",
         "message_actions.h": "c",
         "netdb.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "exit_signal_hander.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

@@ -44,7 +44,8 @@ char* generate_nickname_command(const char* nickname){
 }
 
 void change_nickname(struct user* session_user, char* new_nickname){
-    memset(session_user->nickname, 0, strlen(session_user->nickname));
+    strcpy(session_user->nickname, "");
+    strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
     strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
 }
 
@@ -106,7 +107,6 @@ void* fill_buffer_with_incomming_text(void* args){
         if(!bytes_read){
             break;
         }
-        //append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
         format_and_group_incomming_messages(session_user, temp_buffer);
         int size_of_pong_phrase;
         if ((size_of_pong_phrase = check_for_ping(temp_buffer, session_user->conn.ping_pong_phrase)) != 0){
@@ -114,7 +114,7 @@ void* fill_buffer_with_incomming_text(void* args){
         }
        
     }
-    exit(1);
+    free_complex_buffer(main_buffer);
     return NULL;
 }
 
@@ -123,9 +123,13 @@ void free_user(struct user* _del_user){
     free(_del_user->realname);
     free(_del_user->username);
 
-    // TABs CLEARING MUST BE IMPLEMENTED
-    assert(0);
-
+    tab_t* current;
+    while(_del_user->list_of_active_channels_head != NULL){
+        current = _del_user->list_of_active_channels_head;
+        _del_user->list_of_active_channels_head = _del_user->list_of_active_channels_head->next;
+        free_tab(current);
+    }
+    
 }
 
 

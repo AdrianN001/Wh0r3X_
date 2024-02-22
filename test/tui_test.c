@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "../src/tui/login_page.c"
 #include "../src/tui/connection_popup.c"
@@ -8,6 +9,7 @@
 #include "../src/user.c"
 #include "../src/message_handler.c"
 
+#include "../src/exit_signal_handler.c"
 
 #ifndef CTRL
 #define CTRL(c) ((c) & 037)
@@ -69,10 +71,8 @@ WINDOW* users_box_debug(WINDOW* main_window){
 }
 
 int main(){
-    WINDOW* main_window;
-    struct user session_user = {0};
 
-
+    signal(SIGINT, exit_signal_handler);
     srand(time(NULL));  
 
     char* buffer[24] = {"valami23", "reci23"};
@@ -102,7 +102,7 @@ int main(){
 
 
     /* Create new user */
-    login_result_t res = start_login_page(main_window);
+    result = start_login_page(main_window);
     init_user(&session_user, "valami", "valami", "adrian rael");
     clear();
     /* Connect to new server */
@@ -173,7 +173,7 @@ int main(){
         }
 
 UPDATE:
-        update_info_box(info_box);
+        update_info_box(info_box, session_user.nickname);
         update_users_box(users_box, buffer, &size_of_buffer, &users_gui_lock);
         update_history_box(history_box,session_user.current_channel->name, &session_user.current_channel->buffer, &history_buffer_lock);
         update_tabs_box(active_tabs, &session_user);
@@ -191,5 +191,4 @@ UPDATE:
         usleep(5 * 10e2);
     }
 
-    
 }

@@ -136,9 +136,7 @@ void msg( struct user* current_user, char* args){
 */
 void nickname( struct user* current_user, char* args){
     char buffer[64] = {0}; 
-    memset(buffer, 0, 64 * sizeof(char));
     sprintf(buffer, "NICK %s\n", args);
-
 
     change_nickname(current_user, args);
 
@@ -182,7 +180,6 @@ void part( struct user* current_user, char* args){
         current_user->current_channel = current_user->list_of_active_channels_head;
         send_text_to_server(&current_user->conn, buffer);
     }
-
 }
 
 /*

@@ -111,8 +111,6 @@ login_result_t start_login_page(WINDOW* main_window){
 
     while(1){
         char key_pressed = getch();
-        //mvwadd(popup_window, 1,1, (int)key_pressed);
-        //exit(key_pressed);
 
         switch(key_pressed){
             case 0x09: /* TAB */

@@ -13,5 +13,5 @@
 void fetch_current_date(char* buffer);
 void fetch_current_time(char* buffer);
 
-void update_info_box(WINDOW* info_window);
+void update_info_box(WINDOW* info_window, char* nickname);
 WINDOW* start_information_box(WINDOW* base_window, const char* server_name);

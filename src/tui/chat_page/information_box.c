@@ -23,7 +23,7 @@ void fetch_current_date(char* buffer){
 
 
 
-void update_info_box(WINDOW* info_window){
+void update_info_box(WINDOW* info_window, char* nickname){
 
     char date_buffer[32] = {0};
     char time_buffer[32] = {0};
@@ -32,6 +32,8 @@ void update_info_box(WINDOW* info_window){
     mvwaddstr(info_window, 1,1, time_buffer);
     fetch_current_date(date_buffer);
     mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT -2, INFORMATION_BOX_WINDOW_WIDTH - 12, date_buffer);
+
+    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT/ 2 + 2, INFORMATION_BOX_WINDOW_WIDTH/ 2 - (strlen(nickname) / 2), nickname);
 
     wrefresh(info_window);
 }
