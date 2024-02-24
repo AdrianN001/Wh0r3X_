@@ -93,7 +93,7 @@ bool incomming_part( struct user* current_user, char* author_tag, char* args){
 bool incomming_privmsg_in_channel( struct user* current_user, char* author_tag, char* args){
     char channel_name[32] = {0};
     char body[256] = {0};
-    sscanf(args,"%s :%s", channel_name, body);
+    sscanf(args,"%s :%[a-zA-Z0-9.?~!/-+://@<>() ]", channel_name, body);
 
     int user_is_in_the_channel = linked_list_contains(current_user->list_of_active_channels_head, channel_name);
     if (user_is_in_the_channel != -1){
@@ -110,7 +110,7 @@ bool incomming_privmsg_in_channel( struct user* current_user, char* author_tag, 
 bool incomming_privmsg_between_users( struct user* current_user, char* nickname_of_author, char* author_tag, char* args){
     char username[32] = {0};
     char body[256] = {0};
-    sscanf(args,"%s :%s", username, body);
+    sscanf(args,"%s :%[a-zA-Z0-9.?~!/-+://@<>()' ]", username, body);
 
     int user_is_in_the_channel = linked_list_contains(current_user->list_of_active_channels_head, nickname_of_author);
     if (user_is_in_the_channel == -1){

@@ -86,7 +86,6 @@ void connect_user_to_server(struct user* session_user, const char* host,int port
     free((void*)username_command);
     free((void*)nickname_command);
 
-   
 }
 
 

@@ -198,14 +198,14 @@ void privmsg( struct user* current_user, char* args){
 
     char buffer[256] = {0}; 
     memset(buffer, 0, 256 * sizeof(char));
-    sprintf(buffer, "PRIVMSG %s: %s\n", target, message);
+    sprintf(buffer, "PRIVMSG %s :%s\n", target, message);
 
     send_text_to_server(&current_user->conn, buffer);
 }
 
 void custom_privmsg(struct user* session_user, char* target, char* body){
     char buffer[316] = {0};
-    sprintf(buffer, "PRIVMSG %s: %s\n", target, body);
+    sprintf(buffer, "PRIVMSG %s :%s\n", target, body);
     send_text_to_server(&session_user->conn, buffer);
 }
 
