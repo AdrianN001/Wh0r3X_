@@ -16,4 +16,4 @@ $ ./out/a.out
 
 ### Requirements
  - ncurses
-
+ - make
