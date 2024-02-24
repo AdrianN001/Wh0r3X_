@@ -3,6 +3,7 @@
 
 #include "incomming/incomming_message_handler.c"
 #include "../lib/format.h"
+#include "time.c"
 
 #include <stdlib.h>
 #include <string.h>
@@ -27,10 +28,12 @@ char* try_format_response(struct user* session_user, char* response_buffer, char
     
     
     if(*username != 0 && *nickname != 0 && *host != 0 && *body != 0){
-            // Create author
+        // Create author
         char reformatted_text[516] = {0};
         char author_tag[64] = {0};
-        sprintf(author_tag, "<%s:[%s]>", nickname, username);
+        char time_tag[32] = {0};
+        fetch_current_time_h_m(time_tag);
+        sprintf(author_tag, "<%s>|<%s:[%s]>", time_tag, nickname, username);
         const size_t size_of_author_tag = strlen(out);
 
         
