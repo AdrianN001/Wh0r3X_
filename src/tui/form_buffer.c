@@ -8,28 +8,54 @@ form_buffer_t create_buffer(const int max_size){
     return (form_buffer_t){
         .buffer = new_buffer,
         .size = 0,
+        .current_pointer = 0,
         .max_size = max_size
     };
 }
 void append_to_buffer(form_buffer_t* buffer_obj, char new_char){
-    if(buffer_obj->size < buffer_obj->max_size){
+    if(buffer_obj->size >= buffer_obj->max_size){
+        return;
+    }
+
+    if (buffer_obj->current_pointer == buffer_obj->size){
         buffer_obj->buffer[buffer_obj->size++]=new_char;
         buffer_obj->buffer[buffer_obj->size]='\0';
+        buffer_obj->current_pointer++;
+        return;
     }
+    buffer_obj->size++;
+    for (int i = buffer_obj->size; i >= buffer_obj->current_pointer; i--){
+        buffer_obj->buffer[i] = buffer_obj->buffer[i - 1];
+    }
+    buffer_obj->buffer[buffer_obj->current_pointer] = new_char;
+    buffer_obj->current_pointer++;
 }
-char pop_from_buffer(form_buffer_t* buffer_obj){
-    if (buffer_obj->size < 1){return '0';}
-    char* last_element_pointer = &(buffer_obj->buffer[buffer_obj->size-1]);
-    char last_element = *last_element_pointer;
-    *last_element_pointer = '\0';
-    buffer_obj->size--;
-    return last_element;
+void pop_from_buffer(form_buffer_t* buffer_obj){
+    if (buffer_obj->size < 1){return ;}
+    else if (buffer_obj->size == buffer_obj->current_pointer) {
+        buffer_obj->buffer[buffer_obj->size--] = '\0';
+        buffer_obj->current_pointer--;
+    }
+    else{
+        for(int i = buffer_obj->current_pointer; i < buffer_obj->size; i++){
+            buffer_obj->buffer[i] = buffer_obj->buffer[i+1];
+        }
+        buffer_obj->buffer[buffer_obj->size--] = '\0';
+    }
 }
 void copyn(form_buffer_t* dest_buffer, char* src, short n){
     strncpy(dest_buffer->buffer, src, n);
     dest_buffer->buffer[n] = 0;
     for(size_t i = n+1; i<dest_buffer->max_size;i++){dest_buffer->buffer[i] = '\0';} // clear the remaining part
     
+}
+void move_pointer_to_right(form_buffer_t* buffer){
+    if (buffer->current_pointer != buffer->size) 
+        buffer->current_pointer++;
+}
+void move_pointer_to_left(form_buffer_t* buffer){
+    if (buffer->current_pointer != 0)
+        buffer->current_pointer--;
 }
 void extract(form_buffer_t* src_buffer, char* dest){
     src_buffer->buffer[src_buffer->size] = '\0';
