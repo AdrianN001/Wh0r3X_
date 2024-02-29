@@ -62,8 +62,9 @@ void extract(form_buffer_t* src_buffer, char* dest){
     strncpy(dest, src_buffer->buffer, strlen(src_buffer->buffer));
 }
 void clear_buffer(form_buffer_t* buffer){
-    memset(buffer->buffer, 0, sizeof(char)*buffer->size);
+    strcpy(buffer->buffer, "");
     buffer->size = 0;
+    buffer->current_pointer = 0;
 }
 
 void free_buffer(form_buffer_t* free_buffer){

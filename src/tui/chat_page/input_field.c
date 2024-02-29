@@ -24,9 +24,7 @@ void update_input_box(WINDOW* window, char new_character, form_buffer_t* buffer)
         }
     }
 
-    char percentage_buffer[7] = {0};
     const int percentage_of_buffer_filled = (int)(((float)buffer->size / (float)buffer->max_size ) * 100);
-    sprintf(percentage_buffer, "  %d%%", percentage_of_buffer_filled);
 
     char exact[10] = {0};
     sprintf(exact, "  %d/%d", buffer->size, buffer->max_size);
@@ -36,7 +34,6 @@ void update_input_box(WINDOW* window, char new_character, form_buffer_t* buffer)
     }
 
     mvwaddstr(window, 3, INPUT_FIELD_BOX_WINDOW_WIDTH - (strlen(exact) + 1), exact);
-    mvwaddstr(window, 1, INPUT_FIELD_BOX_WINDOW_WIDTH - (strlen(percentage_buffer) +1), percentage_buffer);
     if (percentage_of_buffer_filled == 100){
         wattroff(window, COLOR_PAIR(5));
         wrefresh(window);

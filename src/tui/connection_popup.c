@@ -14,6 +14,10 @@ connection_history_t get_connection_history(){
     };
 }
 void free_connection_history(connection_history_t* history){
+    /*
+    for (int i = 0; i < history->size;i++){
+        free(history->data[i]);
+    }*/
     free(history->data);
 }
 
@@ -137,7 +141,6 @@ CLEANING_UP:
     delwin(popup_window);
     endwin();
     refresh();
-
     free_connection_history(&history);
 
     return input_buffer.buffer;

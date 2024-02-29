@@ -30,7 +30,7 @@ void initialize_color_pairs(){
     init_pair(PROMPT_INPUT_TEXT, COLOR_BLACK, COLOR_WHITE);
 
     /* Login Page Colors */
-    init_pair(LOGIN_PAGE_START,5, COLOR_BLACK);         
+    init_pair(LOGIN_PAGE_START,9, COLOR_BLACK);         
     init_pair(11, COLOR_YELLOW, COLOR_BLACK);
     init_pair(12, COLOR_GREEN, COLOR_BLACK);
     init_pair(13, COLOR_BLACK, COLOR_BLACK);

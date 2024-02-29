@@ -106,11 +106,9 @@ int main(){
     init_user(&session_user, "valami", "valami", "adrian rael");
     clear();
     /* Connect to new server */
-    
     char* server_name = start_connection_popup_box(main_window);
     connect_user_to_server(&session_user, server_name, 6667);
     clear();
-
     add_new_tab(&session_user, GREETING_PAGE_TAB_NAME);
 
 
