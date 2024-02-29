@@ -8,13 +8,14 @@ void add_new_tab(struct user* session_user, char* name){
     empty_tab->buffer = create_complex_buffer(48);
     empty_tab->users = create_complex_buffer(40);
     strcpy(empty_tab->name, name);
+    empty_tab->name[strlen(name)] = '\0';
     empty_tab->next = NULL;
 
     if(session_user->list_of_active_channels_head == NULL){
         session_user->list_of_active_channels_head = empty_tab;
+        session_user->current_channel = empty_tab;
         return;
     }
-
     tab_t* head = session_user->list_of_active_channels_head;
     while(head->next != NULL){
         head = head->next;
@@ -23,19 +24,11 @@ void add_new_tab(struct user* session_user, char* name){
 }
 
 tab_t* get_tab(tab_t* head, char* name){
-    if(!strcmp(head->name, name)){ // Check for the first one
-        return head;
-
-    }
-    while(head->next->next != NULL){ // Check for in the middle
-        head = head->next;
-        if (strcmp(head->next->name, name) == 0){
-            return head->next;
+    while(head != NULL){ // Check for in the middle
+        if (!strncmp(head->name, name, strlen(name))){
+            return head;
         }
-    }
-
-    if (strcmp(head->next->name, name) == 0){   // Check for at the very last item
-        return head->next;
+        head = head->next;
     }
     return NULL;
 }
@@ -80,9 +73,8 @@ int linked_list_contains(tab_t* head, char* name){
     if (!head){
         return -1;
     }
-    
     int index = 0;
-    while(head->next != NULL){
+    while(head != NULL){
         if ( strcmp( head->name, name) == 0){
             return index;
         }

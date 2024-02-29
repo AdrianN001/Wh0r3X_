@@ -136,9 +136,7 @@ void msg( struct user* current_user, char* args){
 */
 void nickname( struct user* current_user, char* args){
     char buffer[64] = {0}; 
-    memset(buffer, 0, 64 * sizeof(char));
     sprintf(buffer, "NICK %s\n", args);
-
 
     change_nickname(current_user, args);
 
@@ -179,9 +177,9 @@ void part( struct user* current_user, char* args){
 
     bool found = remove_tab(current_user, args);
     if (found){
+        current_user->current_channel = current_user->list_of_active_channels_head;
         send_text_to_server(&current_user->conn, buffer);
     }
-
 }
 
 /*
@@ -200,9 +198,15 @@ void privmsg( struct user* current_user, char* args){
 
     char buffer[256] = {0}; 
     memset(buffer, 0, 256 * sizeof(char));
-    sprintf(buffer, "PRIVMSG %s %s\n", target, message);
+    sprintf(buffer, "PRIVMSG %s :%s\n", target, message);
 
     send_text_to_server(&current_user->conn, buffer);
+}
+
+void custom_privmsg(struct user* session_user, char* target, char* body){
+    char buffer[316] = {0};
+    sprintf(buffer, "PRIVMSG %s :%s\n", target, body);
+    send_text_to_server(&session_user->conn, buffer);
 }
 
 /*

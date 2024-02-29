@@ -1,37 +1,22 @@
 #include "../../../lib/tui/chat_page.h"
+#include "../../time.c"
 #include <pthread.h>
 
 
-void fetch_current_time(char* buffer){
-    time_t rawtime;
-    struct tm* timeinfo;
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-    sprintf(buffer, " %02d:%02d:%02d ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-}
-    
-
-void fetch_current_date(char* buffer){
-    time_t rawtime;
-    struct tm* timeinfo;
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-
-    sprintf(buffer, "%d-%02d-%02d",timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday);
-}
 
 
 
-
-void update_info_box(WINDOW* info_window){
+void update_info_box(WINDOW* info_window, char* nickname){
 
     char date_buffer[32] = {0};
     char time_buffer[32] = {0};
 
-    fetch_current_time(time_buffer);
+    (void)fetch_current_time(time_buffer);
     mvwaddstr(info_window, 1,1, time_buffer);
-    fetch_current_date(date_buffer);
-    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT -2, INFORMATION_BOX_WINDOW_WIDTH - 10, date_buffer);
+    (void)fetch_current_date(date_buffer);
+    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT -2, INFORMATION_BOX_WINDOW_WIDTH - 12, date_buffer);
+
+    mvwaddstr(info_window, INFORMATION_BOX_WINDOW_HEIGHT/ 2 + 2, INFORMATION_BOX_WINDOW_WIDTH/ 2 - (strlen(nickname) / 2), nickname);
 
     wrefresh(info_window);
 }

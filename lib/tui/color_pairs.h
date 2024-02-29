@@ -31,7 +31,7 @@ void initialize_color_pairs(){
 
     /* Login Page Colors */
     init_pair(LOGIN_PAGE_START,5, COLOR_BLACK);         
-    init_pair(11, COLOR_RED, COLOR_BLACK);
+    init_pair(11, COLOR_YELLOW, COLOR_BLACK);
     init_pair(12, COLOR_GREEN, COLOR_BLACK);
     init_pair(13, COLOR_BLACK, COLOR_BLACK);
     init_pair(14, COLOR_GREEN, COLOR_BLACK);

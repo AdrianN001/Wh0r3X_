@@ -44,7 +44,8 @@ char* generate_nickname_command(const char* nickname){
 }
 
 void change_nickname(struct user* session_user, char* new_nickname){
-    memset(session_user->nickname, 0, strlen(session_user->nickname));
+    strcpy(session_user->nickname, "");
+    strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
     strncpy(session_user->nickname, new_nickname, strlen(new_nickname));
 }
 
@@ -56,6 +57,8 @@ void init_user(struct user* new_user, char* nickname, char* username, char* real
     strncpy(new_user->nickname, nickname, strlen(nickname));
     strncpy(new_user->username, username, strlen(username));
     strncpy(new_user->realname, realname, strlen(realname));
+
+    new_user->current_channel = NULL;
     new_user->conn = (struct server_conn){0};
 
 }
@@ -83,7 +86,6 @@ void connect_user_to_server(struct user* session_user, const char* host,int port
     free((void*)username_command);
     free((void*)nickname_command);
 
-   
 }
 
 
@@ -95,6 +97,8 @@ void* fill_buffer_with_incomming_text(void* args){
     complex_buffer_t* main_buffer = args_with_type->buffer;
     pthread_mutex_t* lock = args_with_type->lock;
 
+    initialize_incomming_verb_pairs();
+
     char temp_buffer[MAX_MESSAGE_LENGTH] = {0};
     for (;;){
         memset(temp_buffer, 0, sizeof(temp_buffer));
@@ -102,7 +106,6 @@ void* fill_buffer_with_incomming_text(void* args){
         if(!bytes_read){
             break;
         }
-        //append_to_complex_buffer_with_line_break(main_buffer, temp_buffer);
         format_and_group_incomming_messages(session_user, temp_buffer);
         int size_of_pong_phrase;
         if ((size_of_pong_phrase = check_for_ping(temp_buffer, session_user->conn.ping_pong_phrase)) != 0){
@@ -110,7 +113,7 @@ void* fill_buffer_with_incomming_text(void* args){
         }
        
     }
-    exit(1);
+    free_complex_buffer(main_buffer);
     return NULL;
 }
 
@@ -119,9 +122,13 @@ void free_user(struct user* _del_user){
     free(_del_user->realname);
     free(_del_user->username);
 
-    // TABs CLEARING MUST BE IMPLEMENTED
-    assert(0);
-
+    tab_t* current;
+    while(_del_user->list_of_active_channels_head != NULL){
+        current = _del_user->list_of_active_channels_head;
+        _del_user->list_of_active_channels_head = _del_user->list_of_active_channels_head->next;
+        free_tab(current);
+    }
+    
 }
 
 

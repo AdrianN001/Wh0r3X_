@@ -111,8 +111,6 @@ login_result_t start_login_page(WINDOW* main_window){
 
     while(1){
         char key_pressed = getch();
-        //mvwadd(popup_window, 1,1, (int)key_pressed);
-        //exit(key_pressed);
 
         switch(key_pressed){
             case 0x09: /* TAB */
@@ -135,6 +133,16 @@ login_result_t start_login_page(WINDOW* main_window){
             case 0x02: /* Arrow down */
                 activate_form = (activate_form + 1) % 3; 
                 break;
+            case 0x04:{ /* Arrow left */
+                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                move_pointer_to_left(active_buffer);
+                break;
+            }
+            case 0x05:{ /* Arrow right */
+                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                move_pointer_to_right(active_buffer);
+                break;
+            }
             default:{   
                 /* Update the buffer */
                 form_buffer_t* active_buffer = &(input_buffers[activate_form]);
