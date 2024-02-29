@@ -1,5 +1,5 @@
-#ifndef FORMAT
-#define FORMAT
+#ifndef FORMATING
+#define FORMATING
 
 #include "incomming/incomming_message_handler.c"
 #include "../lib/format.h"
