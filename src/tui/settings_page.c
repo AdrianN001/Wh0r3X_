@@ -1,1 +1,1 @@
-#include "../../lib/tui/settings_page.h"
+#include "whorex/tui.h"

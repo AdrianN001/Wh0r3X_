@@ -1,10 +1,6 @@
-#include "../lib/message_actions.h"
-#include "user.c"
-#include "tab.c"
-
-#ifndef assert
-#define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
-#endif
+#include "whorex/message_actions.h"
+#include "whorex/user.h"
+#include "whorex/assert.h"
 
 
 /*
@@ -63,8 +59,9 @@ void join( struct user* current_user, char* args){
     char passwd[32] = {0};
     sscanf(args, "%s %s", channel, passwd);
 
-    assert(channel[0] == '#');
-
+    if (channel[0] != '#'){
+        return;
+    }
     
 
     char buffer[64] = {0}; 

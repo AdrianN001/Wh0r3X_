@@ -1,5 +1,5 @@
-#include "../../../lib/tui/chat_page.h"
-
+#include "whorex/tui.h"
+#include <stdlib.h>
 
 
 void update_tabs_box(WINDOW* tabs_window, struct user* session_user){

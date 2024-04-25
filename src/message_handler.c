@@ -1,5 +1,7 @@
-#include "message_actions.c"
-#include "../lib/message_handler.h"
+#include "whorex/message_actions.h"
+#include "whorex/message_handler.h"
+#include <string.h>
+#include <stdio.h>
 
 void initialize_verb_pairs(){
 

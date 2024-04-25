@@ -1,6 +1,7 @@
-#include "../../lib/incomming/incomming_message_handler.h"
-#include "incomming_message_actions.c"
+#include "whorex/incomming.h"
 #include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
 
 #ifndef CLR_REG
 #define CLR_REG "\e[1;1H\e[2J"

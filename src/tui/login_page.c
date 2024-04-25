@@ -1,6 +1,4 @@
-#include "../../lib/tui/login_page.h"
-#include "../../lib/tui/color_pairs.h"
-#include "form_buffer.c"
+#include "whorex/tui.h"
 #include <stdlib.h>
 #include <string.h>
 

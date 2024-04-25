@@ -1,7 +1,6 @@
-#ifndef TAB 
-#define TAB
-
-#include "../lib/tab.h"
+#include <stdlib.h>
+#include <string.h>
+#include "whorex/user.h"
 
 void add_new_tab(struct user* session_user, char* name){
     tab_t* empty_tab = (tab_t*)malloc(sizeof(tab_t));
@@ -53,7 +52,7 @@ bool remove_tab(struct user* session_user, char* name){
     while(head->next->next != NULL){ // Check for in the middle
         head = head->next;
         if (strcmp(head->next->name, name) == 0){
-            tab_t* remove = head->next->name;
+            tab_t* remove = head->next;
             tab_t* next_one = head->next->next;
             free_tab(head->next);
             head->next = next_one;
@@ -89,5 +88,3 @@ void free_tab(tab_t* free_tab){
     free_complex_buffer(&free_tab->buffer);
     free((void*)free_tab);
 }
-
-#endif

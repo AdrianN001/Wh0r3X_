@@ -1,7 +1,6 @@
-#include "../../../lib/tui/chat_page.h"
-#include "../../format.c"
-#include "../../complex_buffer.c"
-#include "../../../lib/tui/color_pairs.h"
+#include "whorex/tui.h"
+#include "whorex/format.h"
+#include "whorex/complex_buffer.h"
 
 void update_history_box(WINDOW* window, char* title, complex_buffer_t* buffer, pthread_mutex_t* gui_mutex){
 

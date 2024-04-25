@@ -1,5 +1,5 @@
-#include "../../../lib/tui/chat_page.h"
-
+#include "whorex/tui.h"
+#include <string.h>
 
 void update_input_box(WINDOW* window, char new_character, form_buffer_t* buffer){
 

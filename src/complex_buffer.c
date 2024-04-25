@@ -1,8 +1,10 @@
 #ifndef COMPLEX_BUFFER
 #define COMPLEX_BUFFER
 
-#include "format.c"
-#include "../lib/complex_buffer.h"
+#include "whorex/format.h"
+#include "whorex/complex_buffer.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #define NOT_FOUND -1

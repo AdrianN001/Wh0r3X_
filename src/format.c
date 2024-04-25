@@ -1,9 +1,11 @@
 #ifndef FORMATING
 #define FORMATING
 
-#include "incomming/incomming_message_handler.c"
-#include "../lib/format.h"
-#include "time.c"
+#include "whorex/incomming.h"
+#include "whorex/format.h"
+#include "whorex/user.h"
+#include "whorex/tab.h"
+#include "whorex/time.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -86,6 +88,7 @@ int format_and_group_incomming_messages(struct user* session_user, char* temp_bu
         try_format_response(session_user, messages_with_line_breaks.buffer[i], out);
         strcpy(messages_with_line_breaks.buffer[i], out);
     }
+    return 0;
 }
 
 

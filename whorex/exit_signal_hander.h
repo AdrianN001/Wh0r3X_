@@ -9,4 +9,4 @@ static login_result_t result;
 
 static WINDOW* main_window;
 
-static void exit_signal_handler(int signo);
+void exit_signal_handler(int signo);

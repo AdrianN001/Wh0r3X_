@@ -1,8 +1,7 @@
 #pragma once
 #include <curses.h>
 #include <pthread.h> 
-#include "../../tab.h"
-#include "../../user.h"
+#include "whorex/user.h"
 
 /* Size of the popup window  */
 #define ACTIVE_TAB_BOX_WINDOW_WIDTH 30

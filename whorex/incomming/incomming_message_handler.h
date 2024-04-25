@@ -1,5 +1,5 @@
 #pragma once
-#include "../user.h"
+#include "whorex/user.h"
 
 typedef struct {
     char verb_name[16];

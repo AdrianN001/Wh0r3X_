@@ -1,5 +1,7 @@
-#include "../../lib/tui/connection_popup.h"
+#include "whorex/tui.h"
+#include <ncurses.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 connection_history_t get_connection_history(){

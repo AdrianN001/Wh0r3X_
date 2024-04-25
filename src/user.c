@@ -9,10 +9,11 @@
 #include <arpa/inet.h> 
 #include <unistd.h>
 
-
-#include "../lib/user.h"
-#include "complex_buffer.c"
-#include "format.c"
+#include <stdio.h>
+#include "whorex/tab.h"
+#include "whorex/complex_buffer.h"
+#include "whorex/incomming.h"
+#include "whorex/format.h"
 
 
 char* generate_username_command(const char* username, const char* realname){

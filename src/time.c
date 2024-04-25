@@ -1,7 +1,8 @@
 #ifndef TIME_C
 #define TIME_C
 
-#include "../lib/time.h"
+#include <time.h>
+#include "whorex/time.h"
 #include <stdlib.h>
 #include <stdio.h>
 

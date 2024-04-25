@@ -1,6 +1,6 @@
-#include "../../../lib/tui/chat_page.h"
+#include "whorex/tui.h"
 #include <pthread.h>
-
+#include <stdlib.h>
 
 
 void update_users_box(WINDOW* users_window, char** users_buffer, int* size_of_users, pthread_mutex_t* gui_lock){

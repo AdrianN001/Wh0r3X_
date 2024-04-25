@@ -1,4 +1,4 @@
-#include "../../lib/tui/form_buffer.h"
+#include "whorex/tui.h"
 #include <stdlib.h>
 #include <string.h>
 

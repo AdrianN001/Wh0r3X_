@@ -1,5 +1,5 @@
-#include "../../../lib/tui/chat_page.h"
-#include "../../time.c"
+#include "whorex/tui.h"
+#include "whorex/time.h"
 #include <pthread.h>
 
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <curses.h>
-
+#include "whorex/tui/form_buffer.h"
 
 
 /* Size of the popup window  */

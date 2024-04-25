@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "../src/user.c"
-#include "../src/tui/form_buffer.c"
-#include "../src/complex_buffer.c"
-#include "../src/message_handler.c"
+#include "src/user.c"
+#include "src/tui/form_buffer.c"
+#include "src/complex_buffer.c"
+#include "src/message_handler.c"
 
 #define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
 

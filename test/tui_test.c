@@ -151,10 +151,7 @@ int main(){
                 // clrtoeol clears the border 
                 box(input_box, 0, 0);
 
-
                 send_message(&session_user, input_buffer.buffer);
-                //append_to_buffer(&input_buffer, '\n');
-                //append_to_complex_buffer(&history_buffer, input_buffer.buffer);
                 clear_buffer(&input_buffer);
                 break;
             }

@@ -34,7 +34,17 @@
         "exit_signal_hander.h": "c",
         "time.h": "c",
         "init.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "incomming_message_actions.h": "c",
+        "signal.h": "c",
+        "server_history.h": "c",
+        "incomming_message_handler.h": "c",
+        "users_box.h": "c",
+        "color_pairs.h": "c",
+        "tui.h": "c",
+        "incomming.h": "c",
+        "config.h": "c",
+        "assert.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "C_Cpp.errorSquiggles": "disabled"

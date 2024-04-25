@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include <pthread.h>
 
-#include "../../complex_buffer.h"
+#include "whorex/complex_buffer.h"
 
 /* Size of the popup window  */
 #define HISTORY_BOX_WINDOW_WIDTH 175

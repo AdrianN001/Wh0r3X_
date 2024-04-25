@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h> 
-#include "../lib/server_conn.h"
+#include "whorex/server_conn.h"
 
 struct in_addr resolve_ip_address_from_hostname(const char* hostname){
     struct addrinfo hint;

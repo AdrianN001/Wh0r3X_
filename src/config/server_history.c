@@ -1,4 +1,5 @@
-#include "../../lib/config/server_history.h"
+#include "whorex/config.h"
+#include "whorex/assert.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -8,7 +9,7 @@
 
 void append_to_server_history(char* new_server){
     char path_buffer[32] = {0};
-    sprintf(path_buffer, "~/%s/%s", CONFIG_DIR_NAME, SERVER_HIS_NAME);
+    sprintf(path_buffer, "~/%s/%s", config_dir_name, server_history_name);
     struct stat st = {0};
     assert(stat(path_buffer, &st) != -1);
     FILE* history_file = fopen(path_buffer, "a");

@@ -1,12 +1,9 @@
-#include "../../lib/incomming/incomming_message_actions.h"
-#include "../complex_buffer.c"
-#include "../user.c"
-#include "../tab.c"
+#include "whorex/incomming.h"
+#include "whorex/complex_buffer.h"
+#include "whorex/user.h"
+#include "whorex/assert.h"
 #include <stdio.h>
 
-#ifndef assert
-#define assert(x) if((!(x))){printf("assertion error!\n error at %s() function\n",__func__); exit(1);}
-#endif
 
 
 
