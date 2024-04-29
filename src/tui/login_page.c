@@ -99,7 +99,7 @@ login_result_t start_login_page(WINDOW* main_window){
 
     wrefresh(popup_window);
 
-    int activate_form = USERNAME_FORM;
+    int active_from = USERNAME_FORM;
 
     form_buffer_t input_buffers[3] = { 
                                     create_buffer(24), /* username */
@@ -112,16 +112,16 @@ login_result_t start_login_page(WINDOW* main_window){
 
         switch(key_pressed){
             case 0x09: /* TAB */
-                activate_form = (activate_form + 1) % 3; 
+                active_from = (active_from + 1) % 3; 
                 break;
             case 0x07:{ /* Backspace ( actually the BELL ) */
                 
                 /* Update the buffer */
-                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                form_buffer_t* active_buffer = &(input_buffers[active_from]);
                 pop_from_buffer(active_buffer);
 
                 /* Update the UI */
-                mvwaddch(popup_window, USERNAME_FORM_POSITION + (activate_form * 2), 12+active_buffer->size , ' ');
+                mvwaddch(popup_window, USERNAME_FORM_POSITION + (active_from * 2), 12+active_buffer->size , ' ');
             }
                 break;        
             case 0x0A: /* Enter ( actually the NL ) */
@@ -129,25 +129,25 @@ login_result_t start_login_page(WINDOW* main_window){
             case 0x03: /* Arrow up */
                 exit(1);
             case 0x02: /* Arrow down */
-                activate_form = (activate_form + 1) % 3; 
+                active_from = (active_from + 1) % 3; 
                 break;
             case 0x04:{ /* Arrow left */
-                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                form_buffer_t* active_buffer = &(input_buffers[active_from]);
                 move_pointer_to_left(active_buffer);
                 break;
             }
             case 0x05:{ /* Arrow right */
-                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                form_buffer_t* active_buffer = &(input_buffers[active_from]);
                 move_pointer_to_right(active_buffer);
                 break;
             }
             default:{   
                 /* Update the buffer */
-                form_buffer_t* active_buffer = &(input_buffers[activate_form]);
+                form_buffer_t* active_buffer = &(input_buffers[active_from]);
                 append_to_buffer(active_buffer, key_pressed);
                         
                 /* Update the UI */
-                mvwaddstr(popup_window, USERNAME_FORM_POSITION + (activate_form * 2), 12 , active_buffer->buffer);
+                mvwaddstr(popup_window, USERNAME_FORM_POSITION + (active_from * 2), 12 , active_buffer->buffer);
             }
         }
         wrefresh(popup_window);
@@ -165,6 +165,10 @@ CLEANING_UP:
     strcpy(username_buffer_ext, input_buffers[0].buffer);
     strcpy(nickname_buffer_ext, input_buffers[1].buffer);
     strcpy(realname_buffer_ext, input_buffers[2].buffer);
+
+    for (int i = 0; i < 3; i++){
+        free_buffer(input_buffers[i]);
+    }
 
 
 
