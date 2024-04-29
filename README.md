@@ -11,7 +11,7 @@ TODO
 $ git clone https://github.com/AdrianN001/Wh0r3X_
 $ cd Wh0r3X_
 $ make
-$ ./out/a.out
+$ ./a.out
 ```
 
 ### Requirements
